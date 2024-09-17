@@ -1,0 +1,142 @@
+.Mainsection {
+  margin: 1.6rem 2rem 2rem 3rem;
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 16px;
+}
+.Mainsection > h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+.campus-input-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.campus-input-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.campus-input-card > input {
+  border: 1px solid gray;
+  outline-color: rgb(3, 201, 215);
+  height: 48px;
+  padding: 0 0.6rem;
+  border-radius: 6px;
+}
+.campus-input-card > input[type="color"] {
+  width: 100%;
+}
+.campusSubmitButton {
+  margin-top: 2.6rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+.campusSubmitButton1 {
+  margin-top: 2.6rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.campusSubmitButton1 > button,
+.campusSubmissionButton > button,
+.campusSubmitButton > button {
+  color: #ffffff;
+  padding: 0.8rem 4rem;
+  border-radius: 10px;
+}
+
+.SubButton {
+  color: #ffffff;
+  padding: 0.8rem 4rem;
+  border-radius: 10px;
+}
+.subButton1 {
+  background-color: #e35050;
+}
+.subButton2 {
+  background-color: #3adf8a;
+}
+.subButton3 {
+  background-color: rgb(3, 201, 215);
+  color: #ffffff;
+  padding: 0.8rem 4rem;
+  border-radius: 10px;
+}
+.campusSubmissionButton {
+  margin-top: 2.6rem;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.campusInputContainer {
+  padding-block: 2rem;
+}
+
+.fileUploaderCard {
+  margin-top: 2rem;
+}
+.uploadedFileCard {
+  margin-top: 1rem;
+}
+
+.campusMultipleContainer > h1 {
+  text-align: center;
+}
+.guZdik {
+  position: relative;
+  display: flex;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  -webkit-box-align: center;
+  align-items: center;
+  max-width: 100% !important;
+  height: 40vh !important;
+  border: 2px dashed rgb(3, 201, 215);
+  border-radius: 10px !important;
+  cursor: pointer;
+  -webkit-box-flex: 0;
+  flex-grow: 0;
+  gap: 1rem !important;
+}
+.sc-eqUAAy {
+  display: flex !important;
+  gap: 0.6rem !important;
+}
+.jWkLDY > span {
+  font-size: 16px !important;
+  color: rgb(102, 102, 102);
+}
+.jWkLDY {
+  flex-grow: 0 !important;
+}
+.multipleSelector > select {
+  height: 10rem;
+}
+@media (max-width: 967px) {
+  .Mainsection {
+    margin: 1.6rem 0.4rem 2rem 0.4rem;
+    padding: 1rem;
+  }
+  .campus-input-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .campusSubmissionButton {
+    flex-direction: column;
+  }
+  .campusSubmitButton {
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  .campusSubmitButton > button {
+    color: #ffffff;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+  }
+}

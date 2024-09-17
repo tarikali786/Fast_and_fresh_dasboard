@@ -1,0 +1,84 @@
+.gRfwAR {
+  cursor: pointer !important;
+}
+
+.hkuqVF:hover {
+  background-color: rgb(176, 239, 246);
+}
+.COllegeheading {
+  font-size: 28px;
+  text-transform: capitalize;
+}
+.college-input-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem;
+  margin-top: 2rem;
+}
+.college-input-card {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  width: 90%;
+  justify-content: space-between;
+}
+.college-input-card1 {
+  display: flex;
+  gap: 0.6rem;
+  width: 90%;
+  flex-direction: column;
+}
+.college-input-card > label {
+  width: fit-content;
+  min-width: 20%;
+}
+.college-input-card > input {
+  border: 1px solid gray;
+  outline-color: rgb(3, 201, 215);
+  height: 48px;
+  padding: 0 0.6rem;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.CollegeEmployee {
+  border: 1px solid gray;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  height: 48px;
+}
+
+.previousArrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgb(3, 201, 215);
+  color: #fff;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+@media (max-width: 967px) {
+  .Mainsection {
+    margin: 1.6rem 0.4rem 2rem 0.4rem;
+    padding: 1rem;
+  }
+  .college-input-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .campusSubmissionButton {
+    flex-direction: column;
+  }
+  .campusSubmitButton {
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  .campusSubmitButton > button {
+    color: #ffffff;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+  }
+}
