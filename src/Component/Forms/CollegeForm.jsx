@@ -1,5 +1,6 @@
 import { FileUploader } from "react-drag-drop-files";
-import "./styleform.css";
+import "./styleForm.css";
+
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../Common/Loading";

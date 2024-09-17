@@ -1,7 +1,9 @@
-import "./styleform.css";
+import "./styleForm.css";
+
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import "./styleform.css";
+import "./styleForm.css";
+
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Error from "../Common/Error";
