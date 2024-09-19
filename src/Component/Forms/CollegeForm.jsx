@@ -48,6 +48,7 @@ const MultipleForm = () => {
 
 const SingleForm = () => {
   const [employeeList, setEmployeeList] = useState([]);
+  const [routesList, setRoutesList] = useState([]);
   const api = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
   const [loading, setLoading] = useState(false);
   const [SaveLoading, setSaveLoading] = useState(false);
@@ -57,11 +58,9 @@ const SingleForm = () => {
     delivery_time: "",
     schedule: "",
     campus_employee: [],
-    routes: {
-      name: "",
-      employee_uid: "",
-    },
+    route_uid: "",
   });
+  console.log(collegeFormData);
 
   const FetchEmployeeList = async () => {
     setLoading(true);
@@ -79,6 +78,24 @@ const SingleForm = () => {
     FetchEmployeeList();
   }, []);
 
+  const FetchRoutesList = async () => {
+    const api = `${import.meta.env.VITE_API_URL}/college/routes/`;
+
+    setLoading(true);
+    try {
+      const response = await axios.get(api);
+      setRoutesList(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    FetchRoutesList();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, selectedOptions } = e.target;
 
@@ -90,14 +107,6 @@ const SingleForm = () => {
       setCollegeFormData((prevState) => ({
         ...prevState,
         campus_employee: selectedEmployees,
-      }));
-    } else if (name === "route_name" || name === "employee_uid") {
-      setCollegeFormData((prevState) => ({
-        ...prevState,
-        routes: {
-          ...prevState.routes,
-          [name === "route_name" ? "name" : "employee_uid"]: value,
-        },
       }));
     } else {
       setCollegeFormData((prevState) => ({
@@ -111,13 +120,16 @@ const SingleForm = () => {
     e.preventDefault();
 
     setSaveLoading(true);
-    const postapi = `${import.meta.env.VITE_API_URL}/dashboard/college/`;
+    const postapi = `${import.meta.env.VITE_API_URL}/college/college/`;
     try {
       const res = await axios.post(postapi, collegeFormData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+      if (res.status === 201) {
+        window.location.href = `/college`;
+      }
     } catch (error) {
       console.error("Error while creating the college:", error);
     } finally {
@@ -168,13 +180,19 @@ const SingleForm = () => {
             </div>
             <div className="campus-input-card">
               <label>Schedule:</label>
-              <input
-                type="number"
-                placeholder="Schedule"
+
+              <select
                 name="schedule"
                 value={collegeFormData.schedule}
                 onChange={handleChange}
-              />
+                className="CollegeEmployee"
+              >
+                {[1, 2, 3, 4, 5, 6, 7]?.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="campus-input-container">
@@ -197,35 +215,20 @@ const SingleForm = () => {
                 )}
               </select>
             </div>
-          </div>
-          <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Route Name:</label>
-              <input
-                type="text"
-                placeholder="Route Name"
-                name="route_name"
-                value={collegeFormData.routes.name}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="campus-input-card">
-              <label>Route Employee:</label>
+
               <select
-                name="employee_uid"
-                value={collegeFormData.routes.employee_uid}
+                name="route_uid"
+                value={collegeFormData.route_uid}
                 onChange={handleChange}
                 className="CollegeEmployee"
               >
-                {employeeList?.map(
-                  (e) => (
-                    // e.employee_type === "Driver" && (
-                    <option key={e.uid} value={e.uid}>
-                      {e.name}
-                    </option>
-                  )
-                  // )
-                )}
+                {routesList?.map((e) => (
+                  <option key={e} value={e.uid}>
+                    {e.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
