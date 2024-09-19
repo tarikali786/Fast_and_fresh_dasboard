@@ -87,7 +87,7 @@ export const Navbar = () => {
                 />
               ) : (
                 <p className="rounded-full w-8 h-8 flex items-center border-1 justify-center bg-blue-300">
-                  {user.name[0]}
+                  {user.name[0].toUpperCase()}
                 </p>
               )}
               <p>
