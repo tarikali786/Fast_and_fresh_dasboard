@@ -15,8 +15,6 @@ export const Collection = () => {
 
     try {
       const response = await axios.get(api);
-      console.log(response.data);
-
       setCollectionList(response.data);
     } catch (error) {
       console.error(error);

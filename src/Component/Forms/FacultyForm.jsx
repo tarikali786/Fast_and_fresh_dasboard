@@ -74,7 +74,6 @@ const SingleForm = () => {
         },
       });
       if (res.status == 201) {
-        console.log(res.data);
 
         setFacultyFormData({
           name: "",

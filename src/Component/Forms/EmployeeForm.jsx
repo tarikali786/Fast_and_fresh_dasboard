@@ -58,17 +58,7 @@ const SingleForm = () => {
     { name: "Segregation" },
   ];
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    employee_type: "",
-    aadhar_number: "",
-    mobile: "",
-    dob: "",
-    salary: "",
-    // username: formData.email,
-  });
+  const [formData, setFormData] = useState({});
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -88,7 +78,6 @@ const SingleForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setLoading(true);
-    console.log(formData);
 
     try {
       const apiURL = `${import.meta.env.VITE_API_URL}/college/add-employee/`;
@@ -99,7 +88,6 @@ const SingleForm = () => {
       });
 
       if (res.status === 201) {
-        console.log("Campus created successfully", res.data);
         // Reset form after successful submission
         setFormData({
           name: "",

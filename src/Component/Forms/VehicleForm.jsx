@@ -109,7 +109,6 @@ const SingleForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setLoading(true);
-    console.log(vehicleFormData);
 
     const postapi = `${import.meta.env.VITE_API_URL}/college/vehicle/`;
 
@@ -118,7 +117,6 @@ const SingleForm = () => {
       formData.append(key, vehicleFormData[key]);
     });
 
-    console.log(formData);
 
     try {
       const res = await axios.post(postapi, formData, {
@@ -128,7 +126,6 @@ const SingleForm = () => {
       });
 
       if (res.status === 201) {
-        console.log(res.data);
 
         // Reset form data after successful submission
         setvehicleFormData({

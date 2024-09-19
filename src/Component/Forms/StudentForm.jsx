@@ -84,11 +84,8 @@ const SingleForm = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log(res.data);
 
       if (res.status == 201) {
-        console.log(res.data);
-
         setStudentFormData({
           name: "",
           email: "",
