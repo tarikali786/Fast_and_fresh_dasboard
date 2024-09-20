@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 // import "./style.css";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
+import { get } from "../../hooks/api";
 
-const VehicleDetails = () => {
+export const VehicleDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -14,16 +14,9 @@ const VehicleDetails = () => {
   const api = `${import.meta.env.VITE_API_URL}/college/vehicle/${id}/`;
 
   const FetchCollegeDetails = async () => {
-    try {
-      const response = await axios.get(api);
-      if (response.status == 200) {
-        setVehicleDetails(response?.data);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
+    const response = await get(api);
+    setVehicleDetails(response?.data);
+    setLoading(false);
   };
   useEffect(() => {
     setLoading(true);
@@ -229,5 +222,3 @@ const VehicleDetails = () => {
     </div>
   );
 };
-
-export default VehicleDetails;

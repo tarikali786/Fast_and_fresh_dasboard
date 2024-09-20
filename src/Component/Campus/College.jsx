@@ -3,7 +3,8 @@ import { Header } from "../Common/Header";
 import { CampusTable } from "./CampusTable";
 import axios from "axios";
 import "./style.css";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
+import { get } from "../../hooks/api";
 export const College = () => {
   const [collegeList, setCollegeList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,15 +13,9 @@ export const College = () => {
 
   const FetchCollegeList = async () => {
     setLoading(true);
-
-    try {
-      const response = await axios.get(api);
-      setCollegeList(response.data.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    const response = await get(api);
+    setCollegeList(response.data.data);
+    setLoading(false);
   };
   useEffect(() => {
     FetchCollegeList();

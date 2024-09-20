@@ -1,7 +1,6 @@
 import DataTables from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
 export const CollectionTable2 = ({ columns, data }) => {
-  const navigate = useNavigate();
   const customStyles = {
     rows: {
       style: {

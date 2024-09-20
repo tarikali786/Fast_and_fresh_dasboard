@@ -1,12 +1,10 @@
-import { ordersData } from "../../data/dummy";
 import { Header } from "../Common/Header";
-import { VehicleTable } from "./VehicleTable";
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import { Loading } from "../Common";
+import { RouteTable } from "./RouteTable";
 import { get } from "../../hooks/api";
 
-export const Vehicle = () => {
+export const RouteList = () => {
   const Columns = useMemo(() => {
     return [
       {
@@ -14,35 +12,15 @@ export const Vehicle = () => {
         selector: (row) => row.id,
         sortable: true,
       },
+
       {
-        name: "Odo Meter Image",
-        selector: (row) => (
-          <img
-            width={70}
-            height={60}
-            className="rounded-lg my-2"
-            src={`${row.odo_meter_image}`}
-          />
-        ),
-      },
-      {
-        name: "Name",
+        name: "Route Name",
         selector: (row) => row.name,
         sortable: true,
       },
       {
-        name: "Make",
-        selector: (row) => row.make,
-        sortable: true,
-      },
-      {
-        name: "Odo Meter",
-        selector: (row) => row.odo_meter,
-        sortable: true,
-      },
-      {
-        name: "Number Plate",
-        selector: (row) => row.number_plate,
+        name: "Employee Namme",
+        selector: (row) => row.employee.name,
         sortable: true,
       },
 
@@ -76,13 +54,13 @@ export const Vehicle = () => {
       },
     ];
   }, []);
-  const [vehicleList, setVehicleList] = useState([]);
+  const [routeList, setRouteList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const api = `${import.meta.env.VITE_API_URL}/college/vehicle/`;
+  const api = `${import.meta.env.VITE_API_URL}/dashboard/routeList/`;
 
   const FetchCollegeDetails = async () => {
     const response = await get(api);
-    setVehicleList(response?.data);
+    setRouteList(response?.data);
     setLoading(false);
   };
   useEffect(() => {
@@ -96,11 +74,11 @@ export const Vehicle = () => {
     <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
       <Header
         category="Page"
-        title="vehicle"
-        buttonName="Add Vehicle"
-        Buttonlink="/add-vehicle"
+        title="Route"
+        buttonName="Add Route"
+        Buttonlink="/add-route"
       />
-      <VehicleTable columns={Columns} data={vehicleList} />
+      <RouteTable columns={Columns} data={routeList} />
     </div>
   );
 };

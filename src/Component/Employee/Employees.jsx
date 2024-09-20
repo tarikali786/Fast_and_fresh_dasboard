@@ -1,8 +1,8 @@
 import { EmployeeTable } from "./EmployeeTable";
 import { Header } from "../Common/Header";
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
+import { get } from "../../hooks/api";
 export const Employees = () => {
   const Columns = useMemo(() => {
     return [
@@ -62,15 +62,9 @@ export const Employees = () => {
 
   const FetchCollegeList = async () => {
     setLoading(true);
-
-    try {
-      const response = await axios.get(api);
-      setEmployeeList(response.data.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    const response = await get(api);
+    setEmployeeList(response.data.data);
+    setLoading(false);
   };
   useEffect(() => {
     FetchCollegeList();

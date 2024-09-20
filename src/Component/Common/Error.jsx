@@ -1,5 +1,5 @@
 
-const Error = ({ text, setError }) => {
+export const Error = ({ text, setError }) => {
   return (
     <div
       style={{
@@ -36,4 +36,4 @@ const Error = ({ text, setError }) => {
   );
 };
 
-export default Error;
+

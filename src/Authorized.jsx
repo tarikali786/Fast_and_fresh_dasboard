@@ -1,32 +1,37 @@
-import { Navbar } from "./Component/Common/Navbar";
-import { Sidebar } from "./Component/Common/Sidebar";
-import { ThemeSettings } from "./Component/Common/ThemeSettings";
 import { useStateContext } from "./contexts/contextProvider";
 import { Routes, Route } from "react-router-dom";
-import { Campus } from "./Component/Campus/Campus";
-import { Dashboard } from "./Component/Dashboard/DashBoard";
-import { CampusStudent } from "./Component/Campus/CampusStudent";
-import StudentDetails from "./Component/Campus/StudentDetails";
-import EmployeeDetails from "./Component/Employee/EmployeeDetails";
-import { Employees } from "./Component/Employee/Employees";
-import { Vehicle } from "./Component/Vehicle/Vehicle";
-import VehicleDetails from "./Component/Vehicle/VehicleDetails";
-import Analytic from "./Component/Analytic/Analytic";
-import CampusForm from "./Component/Forms/CampusForm";
-import EmployeeForm from "./Component/Forms/EmployeeForm";
-import VehicleForm from "./Component/Forms/VehicleForm";
-import { College } from "./Component/Campus/College";
-import CollegeForm from "./Component/Forms/CollegeForm";
-import StudentForm from "./Component/Forms/StudentForm";
-import FacultyForm from "./Component/Forms/FacultyForm";
-import { Collection } from "./Component/Collection/Collection";
-import CollectionForm from "./Component/Forms/CollectionForm";
-import CollectionDetails from "./Component/Collection/CollectionDetails";
-import { CollectionTable2 } from "./Component/Collection/CollectionTable2";
 import { useState } from "react";
-import Login from "./Component/Auth/Login";
+import { RouteList } from "./Component/Routes/Routes";
+import {
+  Analytic,
+  Campus,
+  CampusStudent,
+  Collection,
+  CollectionDetails,
+  CollectionTable2,
+  College,
+  Dashboard,
+  EmployeeDetails,
+  Employees,
+  Navbar,
+  Sidebar,
+  StudentDetails,
+  ThemeSettings,
+  Vehicle,
+  VehicleDetails,
+} from "./Component";
+import {
+  CampusForm,
+  CollectionForm,
+  CollegeForm,
+  EmployeeForm,
+  FacultyForm,
+  RouteForm,
+  StudentForm,
+  VehicleForm,
+} from "./Component/Forms";
 
-const App = () => {
+const Authorized = () => {
   const { activeMenu, currentMode, themeSettings } = useStateContext();
 
   const [tableData, setTableData] = useState([]);
@@ -123,6 +128,9 @@ const App = () => {
               <Route path="/vehicle-details/:id" element={<VehicleDetails />} />
               <Route path="/add-vehicle" element={<VehicleForm />} />
 
+              <Route path="/routes" element={<RouteList />} />
+              <Route path="/add-route" element={<RouteForm />} />
+
               {/* End Employee Component */}
             </Routes>
           </div>
@@ -132,4 +140,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Authorized;

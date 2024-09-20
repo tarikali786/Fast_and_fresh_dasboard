@@ -2,10 +2,11 @@ import "./auth.css";
 import Logo from "../../data/Logo.png";
 import { useState } from "react";
 import axios from "axios";
-import Error from "../Common/Error";
+import { Error } from "../Common";
+
 import Cookies from "js-cookie";
 
-const Login = () => {
+export const Login = () => {
   const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({});
   const [errMgs, setErrMsg] = useState("");
@@ -71,57 +72,53 @@ const Login = () => {
   };
 
   return (
-    <>
-      <div className="login-container">
-        {error && <Error text={errMgs} setError={setError} />}
-        <div className="logo-card">
+    <div className="login-container">
+      {error && <Error text={errMgs} setError={setError} />}
+      <div className="logo-card">
+        <div className="logo-containeer">
+          <img src={Logo} alt="" />
+        </div>
+        <h1>Fast & Fresh</h1>
+      </div>
+      <div className="login-card">
+        <div className="login-header">
           <div className="logo-containeer">
             <img src={Logo} alt="" />
           </div>
-          <h1>Fast & Fresh</h1>
+          <h2>Dashboard Login </h2>
         </div>
-        <div className="login-card">
-          <div className="login-header">
-            <div className="logo-containeer">
-              <img src={Logo} alt="" />
+        <form>
+          <div className="campus-input-container1 ">
+            <div className="campus-input-card login-formCard">
+              <label>Email:</label>
+              <input
+                type="email"
+                placeholder="jhon@gmail.com"
+                name="email"
+                value={loginData.email}
+                onChange={handleChange}
+                required
+              />
             </div>
-            <h2>Dashboard Login </h2>
-          </div>
-          <form>
-            <div className="campus-input-container1 ">
-              <div className="campus-input-card login-formCard">
-                <label>Email:</label>
-                <input
-                  type="email"
-                  placeholder="jhon@gmail.com"
-                  name="email"
-                  value={loginData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="campus-input-card login-formCard">
-                <label>Password:</label>
+            <div className="campus-input-card login-formCard">
+              <label>Password:</label>
 
-                <input
-                  type="password"
-                  placeholder="******"
-                  name="password"
-                  value={loginData.password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              <input
+                type="password"
+                placeholder="******"
+                name="password"
+                value={loginData.password}
+                onChange={handleChange}
+                required
+              />
             </div>
-            <button className="subButton3 SubmitButton" onClick={hanldleSubmit}>
-              {loading ? "Loading.." : "Submit"}
-            </button>
-          </form>
-          <p className="forgetPasword">Forget Password</p>
-        </div>
+          </div>
+          <button className="subButton3 SubmitButton" onClick={hanldleSubmit}>
+            {loading ? "Loading.." : "Submit"}
+          </button>
+        </form>
+        <p className="forgetPasword">Forget Password</p>
       </div>
-    </>
+    </div>
   );
 };
-
-export default Login;

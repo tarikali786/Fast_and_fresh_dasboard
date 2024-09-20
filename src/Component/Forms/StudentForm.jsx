@@ -6,7 +6,7 @@ import "./styleForm.css";
 
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import Error from "../Common/Error";
+import { Error } from "../Common";
 
 const fileTypes = ["csv type file"];
 const MultipleForm = () => {
@@ -212,7 +212,7 @@ const SingleForm = () => {
   );
 };
 
-const StudentForm = () => {
+export const StudentForm = () => {
   const [formType, setFormType] = useState("");
 
   return (
@@ -243,5 +243,3 @@ const StudentForm = () => {
     </>
   );
 };
-
-export default StudentForm;

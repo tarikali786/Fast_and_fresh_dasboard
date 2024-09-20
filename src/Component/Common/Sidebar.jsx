@@ -1,7 +1,5 @@
-import { NavLink, Link, useParams } from "react-router-dom";
-import { SiShopware } from "react-icons/si";
+import { NavLink, Link } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
-import { links } from "../../data/dummy";
 import { useStateContext } from "../../contexts/contextProvider";
 import { FaSchoolFlag } from "react-icons/fa6";
 import { TbLayoutDashboard } from "react-icons/tb";
@@ -9,7 +7,7 @@ import { IoMdContacts } from "react-icons/io";
 import { IoAnalyticsSharp } from "react-icons/io5";
 import { FaCarAlt } from "react-icons/fa";
 import { MdCollectionsBookmark } from "react-icons/md";
-import { ImOffice } from "react-icons/im";
+import { FaRoute } from "react-icons/fa";
 import Logo from "../../data/Logo.png";
 export const Sidebar = () => {
   const { activeMenu, setActiveMenu, currentColor, screenSize } =
@@ -116,7 +114,7 @@ export const Sidebar = () => {
               >
                 <FaSchoolFlag />
                 <p>
-                  <span className="capitalize">College</span>
+                  <span className="capitalize">Colleges</span>
                 </p>
               </NavLink>
             </>
@@ -152,7 +150,25 @@ export const Sidebar = () => {
               >
                 <FaCarAlt />
                 <p>
-                  <span className="capitalize">vehicle</span>
+                  <span className="capitalize">vehicles</span>
+                </p>
+              </NavLink>
+            </>
+            <>
+              <NavLink
+                to="routes"
+                key="routes"
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <FaRoute />
+                <p>
+                  <span className="capitalize">Routes</span>
                 </p>
               </NavLink>
             </>

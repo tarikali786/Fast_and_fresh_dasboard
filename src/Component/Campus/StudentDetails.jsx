@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
+import { get } from "../../hooks/api";
 
-const StudentDetails = () => {
+export const StudentDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
@@ -18,16 +18,9 @@ const StudentDetails = () => {
   };
 
   const FetchStudentDetails = async () => {
-    try {
-      const response = await axios.get(api);
-      if (response.status == 200) {
-        setStudentDetails(response?.data);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
+    const response = await get(api);
+    setStudentDetails(response?.data);
+    setLoading(false);
   };
   useEffect(() => {
     setLoading(true);
@@ -173,5 +166,3 @@ const StudentDetails = () => {
     </div>
   );
 };
-
-export default StudentDetails;

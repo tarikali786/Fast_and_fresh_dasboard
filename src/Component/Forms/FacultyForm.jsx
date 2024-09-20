@@ -4,7 +4,8 @@ import "./styleForm.css";
 
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import Error from "../Common/Error";
+import { Error } from "../Common";
+
 const fileTypes = ["csv type file"];
 
 const MultipleForm = () => {
@@ -74,7 +75,6 @@ const SingleForm = () => {
         },
       });
       if (res.status == 201) {
-
         setFacultyFormData({
           name: "",
           campus_uid: id,
@@ -126,7 +126,7 @@ const SingleForm = () => {
   );
 };
 
-const FacultyForm = () => {
+export const FacultyForm = () => {
   const [formType, setFormType] = useState("");
 
   return (
@@ -157,5 +157,3 @@ const FacultyForm = () => {
     </>
   );
 };
-
-export default FacultyForm;

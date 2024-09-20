@@ -6,7 +6,7 @@ import "./styleForm.css";
 
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Error from "../Common/Error";
+import { Error } from "../Common";
 
 const fileTypes = ["csv type file"];
 const MultipleForm = () => {
@@ -113,7 +113,12 @@ const SingleForm = () => {
 
   return (
     <>
-      {error && <Error text={errorMsg ? errorMsg : "Something went wrong!"} />}
+      {error && (
+        <Error
+          text={errorMsg ? errorMsg : "Something went wrong!"}
+          setError={setError}
+        />
+      )}
       <div className="Mainsection">
         <h1>Add Campus</h1>
         <form onSubmit={handleSubmit}>
@@ -229,7 +234,7 @@ const SingleForm = () => {
   );
 };
 
-const EmployeeForm = () => {
+export const EmployeeForm = () => {
   const [formType, setFormType] = useState("");
 
   return (
@@ -260,5 +265,3 @@ const EmployeeForm = () => {
     </>
   );
 };
-
-export default EmployeeForm;

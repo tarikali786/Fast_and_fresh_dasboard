@@ -4,7 +4,8 @@ import { CampusTable } from "./CampusTable";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import "./style.css";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
+import { get } from "../../hooks/api";
 
 export const Campus = () => {
   const Columns = useMemo(() => {
@@ -73,17 +74,10 @@ export const Campus = () => {
   }/dashboard/college-details/${id}/`;
 
   const FetchCollegeDetails = async () => {
-    try {
-      const response = await axios.get(api);
-      if (response.status == 200) {
-        setcollegeDetails(response?.data?.data);
-        setCampusList(response?.data?.campus_data);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
+    const response = await get(api);
+    setcollegeDetails(response?.data?.data);
+    setCampusList(response?.data?.campus_data);
+    setLoading(false);
   };
   useEffect(() => {
     setLoading(true);

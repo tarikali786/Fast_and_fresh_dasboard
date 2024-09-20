@@ -2,10 +2,11 @@ import { customersData } from "../../data/dummy";
 import { CampusTable } from "./CampusTable";
 import { Header } from "../Common/Header";
 import { useParams, useNavigate } from "react-router-dom";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import "./style.css";
+import { get } from "../../hooks/api";
 
 export const CampusStudent = () => {
   const Columns = useMemo(() => {
@@ -107,17 +108,11 @@ export const CampusStudent = () => {
   const api = `${import.meta.env.VITE_API_URL}/dashboard/campus-details/${id}/`;
 
   const FetchCampusDetails = async () => {
-    try {
-      const response = await axios.get(api);
-      if (response.status == 200) {
-        setCampusDetails(response?.data?.data);
-        setStudentList(response?.data?.student_list);
-        setFacultyList(response?.data?.faculty_list);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await get(api);
+    setCampusDetails(response?.data?.data);
+    setStudentList(response?.data?.student_list);
+    setFacultyList(response?.data?.faculty_list);
+    setLoading(false);
   };
   useEffect(() => {
     setLoading(true);

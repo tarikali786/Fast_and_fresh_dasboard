@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
+import { get, remove } from "../../hooks/api";
 
-const EmployeeDetails = () => {
+export const EmployeeDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [employeeDetails, setEmployeeDetails] = useState(null);
@@ -13,18 +13,9 @@ const EmployeeDetails = () => {
     import.meta.env.VITE_API_URL
   }/dashboard/employee-details/${id}/`;
   const FetchemployeeDetails = async () => {
-    try {
-      const response = await axios.get(api);
-      if (response.status == 200) {
-        setEmployeeDetails(response?.data?.data);
-        console.log(response.data);
-
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
+    const response = await get(api);
+    setEmployeeDetails(response?.data?.data);
+    setLoading(false);
   };
   useEffect(() => {
     setLoading(true);
@@ -33,22 +24,15 @@ const EmployeeDetails = () => {
   const goBack = () => {
     navigate(-1);
   };
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
 
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const year = date.getFullYear();
-
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}:${minutes}${ampm}`;
-
-    return `${day}-${month}-${year} T ${formattedTime}`;
+  const handleEmployeeDelete = async () => {
+    const api = `${
+      import.meta.env.VITE_API_URL
+    }/college/employee-delete/${id}/`;
+    const response = await remove(api);
+    navigate("/employees");
   };
+
   if (loading) return <Loading />;
 
   return (
@@ -58,7 +42,7 @@ const EmployeeDetails = () => {
           &#8592;
         </button>
       </div>
-      <h1 className="COllegeheading">college Details</h1>
+      <h1 className="COllegeheading">Employee Details</h1>
       <p>{employeeDetails?.uid}</p>
       <form>
         <div className="college-input-container">
@@ -121,13 +105,13 @@ const EmployeeDetails = () => {
             />
           </div>
         </div>
-        
       </form>
       <div className="campusSubmitButton">
-        <button className="subButton2">Update</button>
+        {/* <button className="subButton2">Update</button> */}
+        <button className="subButton1" onClick={handleEmployeeDelete}>
+          Delete
+        </button>
       </div>
     </div>
   );
 };
-
-export default EmployeeDetails;

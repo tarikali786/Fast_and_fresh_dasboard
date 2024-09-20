@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Header } from "../Common/Header";
-import axios from "axios";
 import "./style.css";
-import Loading from "../Common/Loading";
 import { CollectionTable } from "./CollectionTable";
+import { Loading } from "../Common";
+import { get } from "../../hooks/api";
 export const Collection = () => {
   const [collectionList, setCollectionList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -11,16 +11,10 @@ export const Collection = () => {
   const api = `${import.meta.env.VITE_API_URL}/dashboard/collectionList/`;
 
   const FetchCollegeList = async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios.get(api);
+      setLoading(true);
+      const response = await get(api);
       setCollectionList(response.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
       setLoading(false);
-    }
   };
   useEffect(() => {
     FetchCollegeList();

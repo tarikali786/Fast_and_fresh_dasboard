@@ -117,7 +117,6 @@ const SingleForm = () => {
       formData.append(key, vehicleFormData[key]);
     });
 
-
     try {
       const res = await axios.post(postapi, formData, {
         headers: {
@@ -126,7 +125,6 @@ const SingleForm = () => {
       });
 
       if (res.status === 201) {
-
         // Reset form data after successful submission
         setvehicleFormData({
           name: "",
@@ -323,7 +321,7 @@ const SingleForm = () => {
   );
 };
 
-const VehicleForm = () => {
+export const VehicleForm = () => {
   const [formType, setFormType] = useState("");
 
   return (
@@ -354,5 +352,3 @@ const VehicleForm = () => {
     </>
   );
 };
-
-export default VehicleForm;

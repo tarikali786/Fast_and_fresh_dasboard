@@ -1,8 +1,7 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "./Component/Auth/Login";
+import { Login } from "./Component/Auth";
 
-const Layout2 = () => {
+const Unauthorized = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
@@ -10,4 +9,4 @@ const Layout2 = () => {
   );
 };
 
-export default Layout2;
+export default Unauthorized;

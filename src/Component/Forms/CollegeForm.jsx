@@ -3,7 +3,7 @@ import "./styleForm.css";
 
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
 import axios from "axios";
 
 const fileTypes = ["csv type file"];
@@ -52,14 +52,7 @@ const SingleForm = () => {
   const api = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
   const [loading, setLoading] = useState(false);
   const [SaveLoading, setSaveLoading] = useState(false);
-  const [collegeFormData, setCollegeFormData] = useState({
-    name: "",
-    monthly_payment: "",
-    delivery_time: "",
-    schedule: "",
-    campus_employee: [],
-    route_uid: "",
-  });
+  const [collegeFormData, setCollegeFormData] = useState({});
   console.log(collegeFormData);
 
   const FetchEmployeeList = async () => {
@@ -225,28 +218,28 @@ const SingleForm = () => {
                 className="CollegeEmployee"
               >
                 {routesList?.map((e) => (
-                  <option key={e} value={e.uid}>
+                  <option key={e.uid} value={e.uid}>
                     {e.name}
                   </option>
                 ))}
               </select>
             </div>
           </div>
+          <div className="campusSubmitButton">
+            <Link to="/college" className="subButton1 SubButton">
+              Cancel
+            </Link>
+            <button className="subButton3" onClick={handleSubmit}>
+              {SaveLoading ? "Saving" : "Save"}
+            </button>
+          </div>
         </form>
-        <div className="campusSubmitButton">
-          <Link to="/college" className="subButton1 SubButton">
-            Cancel
-          </Link>
-          <button className="subButton3" onClick={handleSubmit}>
-            {SaveLoading ? "Saving" : "Save"}
-          </button>
-        </div>
       </div>
     </>
   );
 };
 
-const CollegeForm = () => {
+export const CollegeForm = () => {
   const [formType, setFormType] = useState("");
 
   return (
@@ -277,5 +270,3 @@ const CollegeForm = () => {
     </>
   );
 };
-
-export default CollegeForm;

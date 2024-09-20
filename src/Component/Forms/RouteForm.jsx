@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import "./styleForm.css";
 
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { Error } from "../Common";
+
 const fileTypes = ["csv type file"];
 
 const MultipleForm = () => {
@@ -47,22 +48,37 @@ const MultipleForm = () => {
 };
 
 const SingleForm = () => {
-  const { id } = useParams();
   const [Loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [campusFormData, setCampusFormData] = useState({
+  const [employeeList, setEmployeeList] = useState([]);
+
+  const api = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
+
+  const FetchEmployeeList = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(api);
+      setEmployeeList(response.data.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    FetchEmployeeList();
+  }, []);
+
+  const [RouteFormData, setRouteFormData] = useState({
     name: "",
-    tag_name: "",
-    max_student_count: "",
-    color: "#000000",
-    uniform: true,
-    college_uid: id,
+    employee_uid: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCampusFormData({
-      ...campusFormData,
+    setRouteFormData({
+      ...RouteFormData,
       [name]: value,
     });
   };
@@ -70,103 +86,70 @@ const SingleForm = () => {
   const hanldleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const postapi = `${import.meta.env.VITE_API_URL}/college/campus/`;
+    const postapi = `${import.meta.env.VITE_API_URL}/college/routes/`;
     try {
-      const res = await axios.post(postapi, campusFormData, {
+      const res = await axios.post(postapi, RouteFormData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       if (res.status == 201) {
-
-        setCampusFormData({
+        setRouteFormData({
           name: "",
-          tag_name: "",
-          max_student_count: "",
-          color: "#000000",
-          uniform: true,
-          college_uid: id,
+          employee_uid: "",
         });
-        window.location.href = `/campus/${id}`;
+        window.location.href = `/routes`;
       }
     } catch (error) {
       setError(true);
-      console.error("Error while creating the campus:", error);
+      console.error("Error while creating the Route:", error);
     } finally {
       setLoading(false);
     }
   };
+  console.log(RouteFormData);
 
   return (
     <>
       {error && <Error text="Something went wrong! " setError={setError} />}
 
       <div className="Mainsection">
-        <h1>Add Campus</h1>
+        <h1>Add Route</h1>
         <form onSubmit={hanldleSubmit}>
           <div className="campus-input-container">
             <div className="campus-input-card">
-              <label>Campus Name:</label>
+              <label>Route Name:</label>
               <input
                 type="text"
-                placeholder="Campus Name"
+                placeholder="Route Name"
                 name="name"
-                value={campusFormData.name}
+                value={RouteFormData.name}
                 onChange={handleChange}
                 required
               />
             </div>
-            <div className="campus-input-card">
-              <label>Tag Name:</label>
-              <input
-                type="text"
-                placeholder="Tag Name"
-                name="tag_name"
-                value={campusFormData.tag_name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-          <div className="campus-input-container">
-            <div className="campus-input-card">
-              <label>Maximum Student Count:</label>
-              <input
-                type="number"
-                placeholder="Max Student Count"
-                name="max_student_count"
-                value={campusFormData.max_student_count}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="campus-input-card">
-              <label>Color:</label>
-              <input
-                type="color"
-                placeholder="Color"
-                name="color"
-                value={campusFormData.color}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-          <div className="campus-input-container">
-            <div className="campus-input-card">
-              <label>Uniform:</label>
+            <div className="campus-input-card  ">
+              <label>Campus Employee:</label>
               <select
-                name="uniform"
-                className="CollegeEmployee"
-                value={campusFormData.uniform}
+                name="employee_uid"
+                value={RouteFormData.employee_uid}
                 onChange={handleChange}
+                className="CollegeEmployee"
               >
-                <option value="true">True</option>
-                <option value="false">False</option>
+                {employeeList?.map(
+                  (e) =>
+                    e.employee_type === "Driver" && (
+                      <option key={e.uid} value={e.uid}>
+                        {e.name}
+                      </option>
+                    )
+                )}
               </select>
             </div>
           </div>
         </form>
         <div className="campusSubmitButton">
-          <Link to={`/campus/${id}`} className="subButton1 SubButton">
+          <Link to={`/routes`} className="subButton1 SubButton">
             Cancel
           </Link>
           <button className="subButton3" onClick={hanldleSubmit}>
@@ -178,14 +161,14 @@ const SingleForm = () => {
   );
 };
 
-export const CampusForm = () => {
+export const RouteForm = () => {
   const [formType, setFormType] = useState("");
 
   return (
     <>
       {formType === "" && (
         <div className="campusInputContainer Mainsection">
-          <h1>Please select a Campus Submission Type</h1>
+          <h1>Please select a Route Submission Type</h1>
           <div className="campusSubmissionButton">
             <button
               onClick={() => setFormType("single")}
@@ -209,4 +192,3 @@ export const CampusForm = () => {
     </>
   );
 };
-

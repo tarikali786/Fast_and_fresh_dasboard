@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Loading from "../Common/Loading";
+import { Loading } from "../Common";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
@@ -15,8 +15,9 @@ import {
   StudentRemarkColumn,
   WarehouseRemarkColumn,
 } from "./TableColumn";
+import { get } from "../../hooks/api";
 
-const CollectionDetails = ({ setTableData, setTableColumn }) => {
+export const CollectionDetails = ({ setTableData, setTableColumn }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
@@ -31,20 +32,17 @@ const CollectionDetails = ({ setTableData, setTableColumn }) => {
 
   const FetchCollectionDetails = async () => {
     setLoading(true);
-    try {
-      const response = await axios.get(api);
-      if (response.status == 200) {
-        setCollectionDetails(response?.data?.data);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    const response = await get(api);
+    setCollectionDetails(response?.data?.data);
+    console.log(response.data.data);
+
+    setLoading(false);
   };
+
   useEffect(() => {
     FetchCollectionDetails();
   }, []);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
 
@@ -65,16 +63,10 @@ const CollectionDetails = ({ setTableData, setTableColumn }) => {
   const FetchEmployeeList = async () => {
     setLoading(true);
     const api1 = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
+    const response = await get(api1);
 
-    try {
-      const response = await axios.get(api1);
-
-      setEmployeeList(response.data.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    setEmployeeList(response.data.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -324,6 +316,128 @@ const CollectionDetails = ({ setTableData, setTableColumn }) => {
               value={collectionDetails?.completed_segregation_range}
             /> */}
             <textarea value={collectionDetails?.completed_segregation_range} />
+          </div>
+        </div>
+        <div className=" collectionImgeContainer">
+          <div className="college-input-card1 collectionImgeSubContainer ">
+            <label>Daily Image Sheet :</label>
+            <div className="collectionImgeCard">
+              {collectionDetails?.daily_image_sheet?.length === 0 ? (
+              <p className="notUploadedtext">Not Uploaded Yet</p>
+              ) : (
+                <>
+                  {collectionDetails?.daily_image_sheet.map((img, index) => (
+                    <a
+                      key={index}
+                      href={`${import.meta.env.VITE_API_URL}${img?.image}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={`${import.meta.env.VITE_API_URL}${img?.image}`}
+                        alt={`Image ${index + 1}`}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </a>
+                  ))}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="campus-input-container">
+          <div className="campus-input-card  ">
+            <label> Campus pickup Time Image:</label>
+            {collectionDetails?.campus_pickup_collection_image ? (
+              <a
+                href={`${import.meta.env.VITE_API_URL}${
+                  collectionDetails?.campus_pickup_collection_image
+                }`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`${import.meta.env.VITE_API_URL}${
+                    collectionDetails?.campus_pickup_collection_image
+                  }`}
+                  alt={`Image + 1}`}
+                  style={{ cursor: "pointer", borderRadius: "10px" }}
+                />
+              </a>
+            ) : (
+              <p className="notUploadedtext">Not Uploaded Yet</p>
+            )}
+          </div>
+
+          <div className="campus-input-card  ">
+            <label> Campus Drop Time Image:</label>
+            {collectionDetails?.campus_drop_collection_image ? (
+              <a
+                href={`${import.meta.env.VITE_API_URL}${
+                  collectionDetails?.campus_drop_collection_image
+                }`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`${import.meta.env.VITE_API_URL}${
+                    collectionDetails?.campus_drop_collection_image
+                  }`}
+                  alt={`Image + 1}`}
+                  style={{ cursor: "pointer", borderRadius: "10px" }}
+                />
+              </a>
+            ) : (
+              <p className="notUploadedtext">Not Uploaded Yet</p>
+            )}
+          </div>
+        </div>
+
+        <div className="campus-input-container">
+          <div className="campus-input-card  ">
+            <label> Warehouse Pickup Time Image:</label>
+            {collectionDetails?.warehouse_pickup_image ? (
+              <a
+                href={`${import.meta.env.VITE_API_URL}${
+                  collectionDetails?.warehouse_pickup_image
+                }`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`${import.meta.env.VITE_API_URL}${
+                    collectionDetails?.warehouse_pickup_image
+                  }`}
+                  alt={`Image + 1}`}
+                  style={{ cursor: "pointer", borderRadius: "10px" }}
+                />
+              </a>
+            ) : (
+              <p className="notUploadedtext">Not Uploaded Yet</p>
+            )}
+          </div>
+          <div className="campus-input-card  ">
+            <label>Warehouse Drop Time Image:</label>
+            {collectionDetails?.warehouse_drop_image ? (
+              <a
+                href={`${import.meta.env.VITE_API_URL}${
+                  collectionDetails?.warehouse_drop_image
+                }`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`${import.meta.env.VITE_API_URL}${
+                    collectionDetails?.warehouse_drop_image
+                  }`}
+                  alt={`Image + 1}`}
+                  style={{ cursor: "pointer", borderRadius: "10px" }}
+                />
+              </a>
+            ) : (
+              <p className="notUploadedtext">Not Uploaded Yet</p>
+            )}
           </div>
         </div>
 
