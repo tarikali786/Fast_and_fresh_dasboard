@@ -52,14 +52,22 @@ const SingleForm = () => {
   const api = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
   const [loading, setLoading] = useState(false);
   const [SaveLoading, setSaveLoading] = useState(false);
-  const [collegeFormData, setCollegeFormData] = useState({});
-  console.log(collegeFormData);
+
+  const [collegeFormData, setCollegeFormData] = useState({
+    name: "", // Empty string as default
+    monthly_payment: "",
+    delivery_time: "",
+    schedule: "",
+    campus_employee: [],
+    route_uid: "",
+  });
 
   const FetchEmployeeList = async () => {
     setLoading(true);
     try {
       const response = await axios.get(api);
-      setEmployeeList(response.data.data);
+      setEmployeeList(response?.data?.data);
+      console.log(response.data.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -133,109 +141,113 @@ const SingleForm = () => {
   if (loading) return <Loading />;
 
   return (
-    <>
-      <div className="Mainsection">
-        <h1>Add College</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="campus-input-container">
-            <div className="campus-input-card">
-              <label>College Name:</label>
-              <input
-                type="text"
-                placeholder="College Name"
-                name="name"
-                value={collegeFormData.name}
-                onChange={handleChange}
-                spellCheck
-              />
-            </div>
-            <div className="campus-input-card">
-              <label>Monthly Payment:</label>
-              <input
-                type="number"
-                placeholder="Monthly Payment"
-                name="monthly_payment"
-                value={collegeFormData.monthly_payment}
-                onChange={handleChange}
-              />
-            </div>
+    <div className="Mainsection">
+      <h1>Add College</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="campus-input-container">
+          <div className="campus-input-card">
+            <label>College Name:</label>
+            <input
+              type="text"
+              placeholder="College Name"
+              name="name"
+              value={collegeFormData.name}
+              onChange={handleChange}
+              spellCheck
+              required // Built-in validation
+            />
           </div>
-          <div className="campus-input-container">
-            <div className="campus-input-card">
-              <label>Delivery Time:</label>
-              <input
-                type="time"
-                placeholder="Delivery Time"
-                name="delivery_time"
-                value={collegeFormData.delivery_time}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="campus-input-card">
-              <label>Schedule:</label>
-
-              <select
-                name="schedule"
-                value={collegeFormData.schedule}
-                onChange={handleChange}
-                className="CollegeEmployee"
-              >
-                {[1, 2, 3, 4, 5, 6, 7]?.map((e) => (
-                  <option key={e} value={e}>
-                    {e}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="campus-input-card">
+            <label>Monthly Payment:</label>
+            <input
+              type="number"
+              placeholder="Monthly Payment"
+              name="monthly_payment"
+              value={collegeFormData.monthly_payment}
+              onChange={handleChange}
+              required // Built-in validation
+            />
           </div>
-          <div className="campus-input-container">
-            <div className="campus-input-card multipleSelector ">
-              <label>Campus Employee:</label>
-              <select
-                name="campus_employee"
-                multiple
-                value={collegeFormData.campus_employee}
-                onChange={handleChange}
-                className="CollegeEmployee"
-              >
-                {employeeList?.map(
-                  (e) =>
-                    e.employee_type === "Campus_Employee" && (
-                      <option key={e.uid} value={e.uid}>
-                        {e.name}
-                      </option>
-                    )
-                )}
-              </select>
-            </div>
-            <div className="campus-input-card">
-              <label>Route Name:</label>
-
-              <select
-                name="route_uid"
-                value={collegeFormData.route_uid}
-                onChange={handleChange}
-                className="CollegeEmployee"
-              >
-                {routesList?.map((e) => (
-                  <option key={e.uid} value={e.uid}>
-                    {e.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+        </div>
+        <div className="campus-input-container">
+          <div className="campus-input-card">
+            <label>Delivery Time:</label>
+            <input
+              type="time"
+              placeholder="Delivery Time"
+              name="delivery_time"
+              value={collegeFormData.delivery_time}
+              onChange={handleChange}
+              required // Built-in validation
+            />
           </div>
-          <div className="campusSubmitButton">
-            <Link to="/college" className="subButton1 SubButton">
-              Cancel
-            </Link>
-            <button className="subButton3" onClick={handleSubmit}>
-              {SaveLoading ? "Saving" : "Save"}
-            </button>
+          <div className="campus-input-card">
+            <label>Schedule:</label>
+            <select
+              name="schedule"
+              value={collegeFormData.schedule}
+              onChange={handleChange}
+              className="CollegeEmployee"
+              required // Built-in validation
+            >
+              <option value="">Select Schedule Time</option>
+              {[1, 2, 3, 4, 5, 6, 7]?.map((e) => (
+                <option key={e} value={e}>
+                  {e}
+                </option>
+              ))}
+            </select>
           </div>
-        </form>
-      </div>
-    </>
+        </div>
+        <div className="campus-input-container">
+          <div className="campus-input-card multipleSelector">
+            <label>Campus Employee:</label>
+            <select
+              name="campus_employee"
+              multiple
+              value={collegeFormData.campus_employee}
+              onChange={handleChange}
+              className="CollegeEmployee"
+              required // Built-in validation
+            >
+              {employeeList?.map(
+                (e) =>
+                  e.employee_type === "Campus_Employee" && (
+                    <option key={e.uid} value={e.uid}>
+                      {e.name}
+                    </option>
+                  )
+              )}
+            </select>
+          </div>
+          <div className="campus-input-card">
+            <label>Route Name:</label>
+            <select
+              name="route_uid"
+              value={collegeFormData.route_uid}
+              onChange={handleChange}
+              className="CollegeEmployee"
+              required // Built-in validation
+            >
+              <option value="">Select Route</option>
+              {routesList?.map((e) => (
+                <option key={e.uid} value={e.uid}>
+                  {e.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="campusSubmitButton">
+          <Link to="/college" className="subButton1 SubButton">
+            Cancel
+          </Link>
+          <button className="subButton3" type="submit">
+            {SaveLoading ? "Saving" : "Save"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

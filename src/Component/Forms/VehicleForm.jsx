@@ -140,10 +140,10 @@ const SingleForm = () => {
           odo_meter: "",
           number_plate: "",
           // Expenses
-          expense_type: "",
-          amount: "",
-          expense_date: "",
-          image: null,
+          // expense_type: "",
+          // amount: "",
+          // expense_date: "",
+          // image: null,
         });
 
         // Redirect after submission
@@ -171,6 +171,7 @@ const SingleForm = () => {
                 name="name"
                 value={vehicleFormData.name}
                 onChange={handleInputChange}
+                required // Built-in validation
               />
             </div>
             <div className="campus-input-card">
@@ -181,6 +182,7 @@ const SingleForm = () => {
                 name="make"
                 value={vehicleFormData.make}
                 onChange={handleInputChange}
+                required // Built-in validation
               />
             </div>
           </div>
@@ -194,6 +196,7 @@ const SingleForm = () => {
                 name="odo_meter"
                 value={vehicleFormData.odo_meter}
                 onChange={handleInputChange}
+                required // Built-in validation
               />
             </div>
             <div className="campus-input-card">
@@ -204,6 +207,7 @@ const SingleForm = () => {
                 name="number_plate"
                 value={vehicleFormData.number_plate}
                 onChange={handleInputChange}
+                required // Built-in validation
               />
             </div>
           </div>
@@ -226,14 +230,14 @@ const SingleForm = () => {
                 onChange={handleInputChange}
                 className="CollegeEmployee"
               >
+                <option value="">Select Vehicle Driver</option>
                 {employeeList?.map(
-                  (e) => (
-                    // e.employee_type === "Driver" && (
-                    <option key={e.uid} value={e.uid}>
-                      {e.name}
-                    </option>
-                  )
-                  // )
+                  (e) =>
+                    e.employee_type === "Driver" && (
+                      <option key={e.uid} value={e.uid}>
+                        {e.name}
+                      </option>
+                    )
                 )}
               </select>
             </div>
@@ -302,20 +306,19 @@ const SingleForm = () => {
               />
             </div>
           </div>
+          <div className="campusSubmitButton">
+            <Link to="/vehicle" className="subButton1 SubButton">
+              Cancel
+            </Link>
+            <button
+              className="subButton3"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Save"}
+            </button>
+          </div>
         </form>
-
-        <div className="campusSubmitButton">
-          <Link to="/vehicle" className="subButton1 SubButton">
-            Cancel
-          </Link>
-          <button
-            className="subButton3"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save"}
-          </button>
-        </div>
       </div>
     </>
   );

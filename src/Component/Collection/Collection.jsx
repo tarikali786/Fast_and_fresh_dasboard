@@ -11,10 +11,10 @@ export const Collection = () => {
   const api = `${import.meta.env.VITE_API_URL}/dashboard/collectionList/`;
 
   const FetchCollegeList = async () => {
-      setLoading(true);
-      const response = await get(api);
-      setCollectionList(response.data);
-      setLoading(false);
+    setLoading(true);
+    const response = await get(api);
+    setCollectionList(response.data);
+    setLoading(false);
   };
   useEffect(() => {
     FetchCollegeList();
@@ -91,7 +91,8 @@ export const Collection = () => {
         category="Page"
         title="Collection"
         buttonName="Add Collection"
-        Buttonlink="/add-collection"
+        // Buttonlink="/add-collection"
+        Buttonlink="#"
       />
       <CollectionTable
         columns={Columns}
