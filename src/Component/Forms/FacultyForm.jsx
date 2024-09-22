@@ -94,7 +94,7 @@ const SingleForm = () => {
       {error && <Error text="Something went wrong! " setError={setError} />}
 
       <div className="Mainsection">
-        <h1>Add Campus</h1>
+        <h1>Add Faculty</h1>
         <form onSubmit={hanldleSubmit}>
           <div className="campus-input-container">
             <div className="campus-input-card">
@@ -109,18 +109,23 @@ const SingleForm = () => {
               />
             </div>
           </div>
+          <div className="campusSubmitButton">
+            <Link
+              to={`/campus-student-list/${id}`}
+              className="subButton1 SubButton"
+            >
+              Cancel
+            </Link>
+            <button
+              type="submit"
+              className="subButton3"
+              // onClick={hanldleSubmit}
+              disabled={Loading}
+            >
+              {Loading ? "Saving" : "Save"}
+            </button>
+          </div>
         </form>
-        <div className="campusSubmitButton">
-          <Link
-            to={`/campus-student-list/${id}`}
-            className="subButton1 SubButton"
-          >
-            Cancel
-          </Link>
-          <button className="subButton3" onClick={hanldleSubmit}>
-            {Loading ? "Saving" : "Save"}
-          </button>
-        </div>
       </div>
     </>
   );

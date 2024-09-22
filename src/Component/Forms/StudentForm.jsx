@@ -66,26 +66,45 @@ const SingleForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setStudentFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
+  // Filter out empty fields before sending the data
+  const filterEmptyFields = (data) => {
+    return Object.keys(data)
+      .filter((key) => data[key] !== "")
+      .reduce((acc, key) => {
+        acc[key] = data[key];
+        return acc;
+      }, {});
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if the form is valid using the HTML5 validation API
+    if (!e.target.checkValidity()) {
+      e.target.reportValidity(); // Show built-in validation alerts if invalid
+      return;
+    }
+
     setLoading(true);
+
+    // Filter out empty fields from the form data
+    const filteredData = filterEmptyFields(studentFormData);
 
     const postapi = `${import.meta.env.VITE_API_URL}/college/student/`;
     try {
-      const res = await axios.post(postapi, studentFormData, {
+      const res = await axios.post(postapi, filteredData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      if (res.status == 201) {
+      if (res.status === 201) {
         setStudentFormData({
           name: "",
           email: "",
@@ -101,9 +120,8 @@ const SingleForm = () => {
     } catch (error) {
       setError(true);
       console.error("Error while creating the Student:", error);
-      {
-        error.response.data.email &&
-          setErrorMessage(error.response.data.email[0]);
+      if (error.response.data.email) {
+        setErrorMessage(error.response.data.email[0]);
       }
     } finally {
       setLoading(false);
@@ -116,7 +134,7 @@ const SingleForm = () => {
 
       <div className="Mainsection">
         <h1>Add Student</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Student Name:</label>
@@ -126,6 +144,7 @@ const SingleForm = () => {
                 name="name"
                 value={studentFormData.name}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="campus-input-card">
@@ -136,9 +155,11 @@ const SingleForm = () => {
                 name="tag_number"
                 value={studentFormData.tag_number}
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
+
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Mobile:</label>
@@ -158,9 +179,11 @@ const SingleForm = () => {
                 name="email"
                 value={studentFormData.email}
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
+
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>DOB:</label>
@@ -183,6 +206,7 @@ const SingleForm = () => {
               />
             </div>
           </div>
+
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Branch:</label>
@@ -195,22 +219,25 @@ const SingleForm = () => {
               />
             </div>
           </div>
+
+          <div className="campusSubmitButton">
+            <Link
+              to={`/campus-student-list/${id}`}
+              className="subButton1 SubButton"
+            >
+              Cancel
+            </Link>
+            <button className="subButton3" type="submit" disabled={Loading}>
+              {Loading ? "Saving.." : "Save"}
+            </button>
+          </div>
         </form>
-        <div className="campusSubmitButton">
-          <Link
-            to={`/campus-student-list/${id}`}
-            className="subButton1 SubButton"
-          >
-            Cancel
-          </Link>
-          <button className="subButton3" onClick={handleSubmit}>
-            {Loading ? "Saving.." : "Save"}
-          </button>
-        </div>
       </div>
     </>
   );
 };
+
+export default SingleForm;
 
 export const StudentForm = () => {
   const [formType, setFormType] = useState("");

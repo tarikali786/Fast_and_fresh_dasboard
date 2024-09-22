@@ -242,7 +242,7 @@ const SingleForm = () => {
           <Link to="/college" className="subButton1 SubButton">
             Cancel
           </Link>
-          <button className="subButton3" type="submit">
+          <button className="subButton3" type="submit" disabled={SaveLoading}>
             {SaveLoading ? "Saving" : "Save"}
           </button>
         </div>

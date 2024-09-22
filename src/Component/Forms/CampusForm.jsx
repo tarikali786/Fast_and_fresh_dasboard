@@ -59,6 +59,7 @@ const SingleForm = () => {
     college_uid: id,
   });
 
+  // Handle Change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCampusFormData({
@@ -67,8 +68,16 @@ const SingleForm = () => {
     });
   };
 
-  const hanldleSubmit = async (e) => {
+  // Handle Submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if the form is valid using the HTML5 validation API
+    if (!e.target.checkValidity()) {
+      e.target.reportValidity(); // Will trigger the built-in browser validation alerts
+      return;
+    }
+
     setLoading(true);
     const postapi = `${import.meta.env.VITE_API_URL}/college/campus/`;
     try {
@@ -77,8 +86,7 @@ const SingleForm = () => {
           "Content-Type": "application/json",
         },
       });
-      if (res.status == 201) {
-
+      if (res.status === 201) {
         setCampusFormData({
           name: "",
           tag_name: "",
@@ -99,11 +107,11 @@ const SingleForm = () => {
 
   return (
     <>
-      {error && <Error text="Something went wrong! " setError={setError} />}
+      {error && <Error text="Something went wrong!" setError={setError} />}
 
       <div className="Mainsection">
         <h1>Add Campus</h1>
-        <form onSubmit={hanldleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Campus Name:</label>
@@ -128,6 +136,7 @@ const SingleForm = () => {
               />
             </div>
           </div>
+
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Maximum Student Count:</label>
@@ -137,6 +146,8 @@ const SingleForm = () => {
                 name="max_student_count"
                 value={campusFormData.max_student_count}
                 onChange={handleChange}
+                required
+                min="1"
               />
             </div>
             <div className="campus-input-card">
@@ -150,6 +161,7 @@ const SingleForm = () => {
               />
             </div>
           </div>
+
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Uniform:</label>
@@ -159,24 +171,27 @@ const SingleForm = () => {
                 value={campusFormData.uniform}
                 onChange={handleChange}
               >
-                <option value="true">True</option>
-                <option value="false">False</option>
+                <option value={true}>True</option>
+                <option value={false}>False</option>
               </select>
             </div>
           </div>
+
+          <div className="campusSubmitButton">
+            <Link to={`/campus/${id}`} className="subButton1 SubButton">
+              Cancel
+            </Link>
+            <button className="subButton3" type="submit" disabled={Loading}>
+              {Loading ? "Saving..." : "Save"}
+            </button>
+          </div>
         </form>
-        <div className="campusSubmitButton">
-          <Link to={`/campus/${id}`} className="subButton1 SubButton">
-            Cancel
-          </Link>
-          <button className="subButton3" onClick={hanldleSubmit}>
-            {Loading ? "Saving" : "Save"}
-          </button>
-        </div>
       </div>
     </>
   );
 };
+
+export default SingleForm;
 
 export const CampusForm = () => {
   const [formType, setFormType] = useState("");
@@ -209,4 +224,3 @@ export const CampusForm = () => {
     </>
   );
 };
-

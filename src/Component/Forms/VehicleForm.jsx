@@ -51,6 +51,7 @@ const SingleForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
+
   const api = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
 
   const [vehicleFormData, setvehicleFormData] = useState({
@@ -66,12 +67,6 @@ const SingleForm = () => {
     fuel_level: "",
     odo_meter: "",
     number_plate: "",
-
-    // Expenses
-    // expense_type: "",
-    // amount: "",
-    // expense_date: "",
-    // image: null,
   });
 
   const handleInputChange = (e) => {
@@ -80,12 +75,12 @@ const SingleForm = () => {
     if (files) {
       setvehicleFormData((prevData) => ({
         ...prevData,
-        [name]: files[0],
+        [name]: files[0], // Store the file object
       }));
     } else {
       setvehicleFormData((prevData) => ({
         ...prevData,
-        [name]: value,
+        [name]: value, // Store text-based inputs
       }));
     }
   };
@@ -108,13 +103,16 @@ const SingleForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setLoading(true);
+    setLoading(true);
 
     const postapi = `${import.meta.env.VITE_API_URL}/college/vehicle/`;
 
     const formData = new FormData();
     Object.keys(vehicleFormData).forEach((key) => {
-      formData.append(key, vehicleFormData[key]);
+      // Append fields only if they have a value (to avoid sending empty fields)
+      if (vehicleFormData[key]) {
+        formData.append(key, vehicleFormData[key]);
+      }
     });
 
     try {
@@ -139,11 +137,6 @@ const SingleForm = () => {
           fuel_level: "",
           odo_meter: "",
           number_plate: "",
-          // Expenses
-          // expense_type: "",
-          // amount: "",
-          // expense_date: "",
-          // image: null,
         });
 
         // Redirect after submission
@@ -167,7 +160,7 @@ const SingleForm = () => {
               <label>Name:</label>
               <input
                 type="text"
-                placeholder="Campus Name"
+                placeholder="Vehicle Name"
                 name="name"
                 value={vehicleFormData.name}
                 onChange={handleInputChange}
@@ -220,6 +213,7 @@ const SingleForm = () => {
                 name="fuel_level"
                 value={vehicleFormData.fuel_level}
                 onChange={handleInputChange}
+                required // Built-in validation
               />
             </div>
             <div className="campus-input-card">
@@ -229,6 +223,7 @@ const SingleForm = () => {
                 value={vehicleFormData.last_driver_uid}
                 onChange={handleInputChange}
                 className="CollegeEmployee"
+                required // Built-in validation
               >
                 <option value="">Select Vehicle Driver</option>
                 {employeeList?.map(
@@ -243,7 +238,7 @@ const SingleForm = () => {
             </div>
           </div>
 
-          {/* Handling image uploads */}
+          {/* Image uploads */}
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Odo Meter Image:</label>
@@ -252,6 +247,7 @@ const SingleForm = () => {
                 accept="image/*"
                 name="odo_meter_image"
                 onChange={handleInputChange}
+                required // Built-in validation
               />
             </div>
             <div className="campus-input-card">
@@ -306,14 +302,15 @@ const SingleForm = () => {
               />
             </div>
           </div>
+
           <div className="campusSubmitButton">
             <Link to="/vehicle" className="subButton1 SubButton">
               Cancel
             </Link>
             <button
+              type="submit"
               className="subButton3"
-              onClick={handleSubmit}
-              disabled={loading}
+              disabled={loading} // Disable the button while loading
             >
               {loading ? "Saving..." : "Save"}
             </button>

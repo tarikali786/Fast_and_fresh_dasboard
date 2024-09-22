@@ -83,8 +83,8 @@ const SingleForm = () => {
     });
   };
 
-  const hanldleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // This is crucial for form submission
     setLoading(true);
     const postapi = `${import.meta.env.VITE_API_URL}/college/routes/`;
     try {
@@ -93,7 +93,7 @@ const SingleForm = () => {
           "Content-Type": "application/json",
         },
       });
-      if (res.status == 201) {
+      if (res.status === 201) {
         setRouteFormData({
           name: "",
           employee_uid: "",
@@ -107,6 +107,7 @@ const SingleForm = () => {
       setLoading(false);
     }
   };
+
   console.log(RouteFormData);
 
   return (
@@ -115,7 +116,9 @@ const SingleForm = () => {
 
       <div className="Mainsection">
         <h1>Add Route</h1>
-        <form onSubmit={hanldleSubmit}>
+        <form onSubmit={handleSubmit}>
+          {" "}
+          {/* onSubmit triggers validation */}
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Route Name:</label>
@@ -125,17 +128,19 @@ const SingleForm = () => {
                 name="name"
                 value={RouteFormData.name}
                 onChange={handleChange}
-                required
+                required // Built-in validation
               />
             </div>
-            <div className="campus-input-card  ">
-              <label>Campus Employee:</label>
+            <div className="campus-input-card">
+              <label>Route Employee:</label>
               <select
                 name="employee_uid"
                 value={RouteFormData.employee_uid}
                 onChange={handleChange}
                 className="CollegeEmployee"
+                required // Built-in validation
               >
+                <option value="">Select Route Driver</option>
                 {employeeList?.map(
                   (e) =>
                     e.employee_type === "Driver" && (
@@ -147,15 +152,15 @@ const SingleForm = () => {
               </select>
             </div>
           </div>
+          <div className="campusSubmitButton">
+            <Link to="/routes" className="subButton1 SubButton">
+              Cancel
+            </Link>
+            <button type="submit" className="subButton3">
+              {Loading ? "Saving" : "Save"} {/* Use type="submit" */}
+            </button>
+          </div>
         </form>
-        <div className="campusSubmitButton">
-          <Link to={`/routes`} className="subButton1 SubButton">
-            Cancel
-          </Link>
-          <button className="subButton3" onClick={hanldleSubmit}>
-            {Loading ? "Saving" : "Save"}
-          </button>
-        </div>
       </div>
     </>
   );

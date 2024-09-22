@@ -8,7 +8,10 @@ import Cookies from "js-cookie";
 
 export const Login = () => {
   const [loading, setLoading] = useState(false);
-  const [loginData, setLoginData] = useState({});
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
   const [errMgs, setErrMsg] = useState("");
   const [error, setError] = useState(false);
   const handleChange = (e) => {
