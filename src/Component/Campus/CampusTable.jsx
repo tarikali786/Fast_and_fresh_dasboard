@@ -31,6 +31,8 @@ export const CampusTable = ({ columns, data, tabletype }) => {
       navigate(`/campus-student-list/${row.uid}`);
     } else if (tabletype === "CampusStudentList") {
       navigate(`/campus-student-details/${row.uid}`);
+    } else if (tabletype === "CampusFacultyList") {
+      navigate(`/campus-faculty-details/${row.uid}`);
     }
   };
   return (

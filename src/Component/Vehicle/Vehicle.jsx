@@ -99,6 +99,8 @@ export const Vehicle = () => {
         title="vehicle"
         buttonName="Add Vehicle"
         Buttonlink="/add-vehicle"
+        itmeList={vehicleList}
+        setItemList={setVehicleList}
       />
       <VehicleTable columns={Columns} data={vehicleList} />
     </div>

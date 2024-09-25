@@ -1,7 +1,6 @@
 import { useStateContext } from "./contexts/contextProvider";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import { RouteList } from "./Component/Routes/Routes";
 import {
   Analytic,
   Campus,
@@ -13,6 +12,7 @@ import {
   Dashboard,
   EmployeeDetails,
   Employees,
+  FacultyDetails,
   Navbar,
   Sidebar,
   StudentDetails,
@@ -30,6 +30,7 @@ import {
   StudentForm,
   VehicleForm,
 } from "./Component/Forms";
+import { RouteDetails, RouteList } from "./Component/Routes";
 
 const Authorized = () => {
   const { activeMenu, currentMode, themeSettings } = useStateContext();
@@ -83,6 +84,10 @@ const Authorized = () => {
                 path="/campus-student-details/:id"
                 element={<StudentDetails />}
               />
+              <Route
+                path="/campus-faculty-details/:id"
+                element={<FacultyDetails />}
+              />
 
               <Route path="/add-campus/:id" element={<CampusForm />} />
               <Route path="/add-student/:id" element={<StudentForm />} />
@@ -130,7 +135,7 @@ const Authorized = () => {
 
               <Route path="/routes" element={<RouteList />} />
               <Route path="/add-route" element={<RouteForm />} />
-
+              <Route path="/route-details/:id" element={<RouteDetails />} />
               {/* End Employee Component */}
             </Routes>
           </div>

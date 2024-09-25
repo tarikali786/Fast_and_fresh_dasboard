@@ -103,6 +103,8 @@ export const College = () => {
         title="College"
         buttonName="Add College"
         Buttonlink="/add-college"
+        itmeList={collegeList}
+        setItemList={setCollegeList}
       />
       <CampusTable
         columns={Columns}

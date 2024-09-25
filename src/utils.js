@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import axios from "axios";
+import { get } from "./hooks/api";
 
 export const RefreshAccessToken = async (refresh_token, setAccessToken) => {
   const api = `${import.meta.env.VITE_API_URL}/college/refresh-token/`;
@@ -29,5 +30,31 @@ export const RefreshAccessToken = async (refresh_token, setAccessToken) => {
   } catch (error) {
     console.error("Error refreshing token:", error);
     return false;
+  }
+};
+
+export const fetchEmployeeList = async () => {
+  try {
+    const employeeApi = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
+    const response = await get(employeeApi);
+    if (response?.data?.data) {
+      return response.data.data;
+    }
+  } catch (error) {
+    console.error("Failed to fetch employee list", error);
+  }
+};
+
+export const fetchEmployeTypeList = async (type) => {
+  try {
+    const employeeApi = `${
+      import.meta.env.VITE_API_URL
+    }/college/all-employee/?q=${type}`;
+    const response = await get(employeeApi);
+    if (response?.data?.data) {
+      return response.data.data;
+    }
+  } catch (error) {
+    console.error("Failed to fetch employee list", error);
   }
 };

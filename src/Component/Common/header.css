@@ -1,0 +1,12 @@
+.SearchBar {
+  border: 1px solid gray;
+  padding: 0.6rem 1rem;
+  width: 40%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.SearchBar:hover {
+  border:2px solid rgb(3, 201, 215);
+}

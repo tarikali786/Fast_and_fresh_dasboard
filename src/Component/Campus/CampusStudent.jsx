@@ -1,16 +1,99 @@
-import { customersData } from "../../data/dummy";
 import { CampusTable } from "./CampusTable";
 import { Header } from "../Common/Header";
 import { useParams, useNavigate } from "react-router-dom";
 import { Loading } from "../Common";
-import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import "./style.css";
-import { get } from "../../hooks/api";
+import { get, patch, remove } from "../../hooks/api"; // Assuming you have a patch method in your API hooks
 
 export const CampusStudent = () => {
-  const Columns = useMemo(() => {
-    return [
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  // States
+  const [campusDetails, setCampusDetails] = useState(null);
+  const [studentList, setStudentList] = useState([]);
+  const [facultyList, setFacultyList] = useState([]);
+  const [loading, setLoading] = useState(true); // Default true to show loading at start
+  const [editedFields, setEditedFields] = useState({});
+
+  // Navigate Back and Forward
+  const goBack = () => navigate(-1);
+  const goForward = () => navigate(1);
+
+  // API URLs
+  const api = `${import.meta.env.VITE_API_URL}/dashboard/campus-details/${id}/`;
+
+  // Fetch campus details and set state
+  const FetchCampusDetails = async () => {
+    setLoading(true); // Show loading while fetching
+    try {
+      const response = await get(api);
+      const data = response?.data?.data;
+      setCampusDetails(data);
+      setStudentList(response?.data?.student_list);
+      setFacultyList(response?.data?.faculty_list);
+
+      // Initialize form fields for editing
+      setEditedFields({
+        name: data?.name || "",
+        tag_name: data?.tag_name || "",
+        max_student_count: data?.max_student_count || "",
+        uniform: data?.uniform || "",
+      });
+    } catch (error) {
+      console.error("Error fetching campus details:", error);
+    }
+    setLoading(false);
+  };
+
+  // Fetch data on component load
+  useEffect(() => {
+    FetchCampusDetails();
+  }, [id]); // Re-fetch if id changes
+
+  // Handle input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedFields((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle form submission
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const updateApi = `${import.meta.env.VITE_API_URL}/college/campus/${id}/`;
+    try {
+      const response = await patch(updateApi, editedFields);
+      if (response.status === 200) {
+        alert("Campus details updated successfully!");
+        FetchCampusDetails(); // Refetch details after update
+      }
+    } catch (error) {
+      console.error("Error updating campus details:", error);
+      alert("Failed to update campus details.");
+    }
+  };
+
+  // Format Date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    const formattedTime = `${hours}:${minutes}${ampm}`;
+    return `${day}-${month}-${year} T ${formattedTime}`;
+  };
+
+  // Column configuration for tables
+  const studentColumns = useMemo(
+    () => [
       {
         name: "Id",
         selector: (row) => row.id,
@@ -26,9 +109,8 @@ export const CampusStudent = () => {
         selector: (row) => `${campusDetails?.tag_name}${row.tag_number}`,
         sortable: true,
       },
-
       {
-        name: "branch",
+        name: "Branch",
         selector: (row) => row.branch,
         sortable: true,
       },
@@ -37,45 +119,32 @@ export const CampusStudent = () => {
         selector: (row) => row.dob,
         sortable: true,
       },
-
       {
         name: "Mobile",
         selector: (row) => row.mobile,
         sortable: true,
       },
-
       {
         name: "Status",
-        sortable: true,
-
         selector: (row) => row.isActive,
         cell: (row) => {
-          let bgColorClass = "";
-          switch (row.isActive) {
-            case false:
-              bgColorClass = "bg-orange-500";
-              break;
-            case true:
-              bgColorClass = "bg-sky-400";
-              break;
-
-            default:
-              bgColorClass = "bg-gray-950";
-          }
-
+          const bgColorClass = row.isActive ? "bg-sky-400" : "bg-orange-500";
           return (
             <span
               className={`border-1 w-20 flex justify-center py-2.5 text-white rounded-full ${bgColorClass}`}
             >
-              {row.isActive ? "Active" : "InActive"}
+              {row.isActive ? "Active" : "Inactive"}
             </span>
           );
         },
+        sortable: true,
       },
-    ];
-  }, []);
-  const Columns2 = useMemo(() => {
-    return [
+    ],
+    [campusDetails]
+  );
+
+  const facultyColumns = useMemo(
+    () => [
       {
         name: "Id",
         selector: (row) => row.id,
@@ -86,71 +155,45 @@ export const CampusStudent = () => {
         selector: (row) => row.name,
         sortable: true,
       },
-    ];
-  }, []);
+    ],
+    []
+  );
 
-  const { id } = useParams();
-  const navigate = useNavigate();
+  // Delete employee
+  const handleCampusDelete = async () => {
+    const deleteApi = `${import.meta.env.VITE_API_URL}/college/campus/${id}/`;
 
-  const goBack = () => {
-    navigate(-1); // Go to the previous page in the browser history
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this Campus?"
+    );
+
+    if (confirmation) {
+      await remove(deleteApi);
+      navigate(`/college/`);
+    } else {
+      console.log("Campus deletion canceled");
+    }
   };
 
-  const goForward = () => {
-    navigate(1);
-  };
-
-  const [campusDetails, setCampusDetails] = useState(null);
-  const [studentList, setStudentList] = useState([]);
-  const [facultyList, setFacultyList] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const api = `${import.meta.env.VITE_API_URL}/dashboard/campus-details/${id}/`;
-
-  const FetchCampusDetails = async () => {
-    const response = await get(api);
-    setCampusDetails(response?.data?.data);
-    setStudentList(response?.data?.student_list);
-    setFacultyList(response?.data?.faculty_list);
-    setLoading(false);
-  };
-  useEffect(() => {
-    setLoading(true);
-    FetchCampusDetails();
-  }, []);
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const year = date.getFullYear();
-
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}:${minutes}${ampm}`;
-
-    return `${day}-${month}-${year} T ${formattedTime}`;
-  };
+  // Loading State
   if (loading) return <Loading />;
 
   return (
     <>
-      <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
+      <div className="m-2 md:m-10 mt-6 p-2 md:p-4 bg-white rounded-3xl">
         <div>
           <button onClick={goBack} className="previousArrow">
             &#8592;
           </button>
-
           <button onClick={goForward} className="previousArrow">
             &#8594;
           </button>
         </div>
         <h1 className="COllegeheading">Campus Details</h1>
         <p>{campusDetails?.uid}</p>
-        <form>
+
+        {/* Campus Form */}
+        <form onSubmit={handleUpdate}>
           <div className="college-input-container">
             <div className="college-input-card">
               <label>Campus Name:</label>
@@ -158,7 +201,8 @@ export const CampusStudent = () => {
                 type="text"
                 placeholder="Campus Name"
                 name="name"
-                value={campusDetails?.name}
+                value={editedFields?.name}
+                onChange={handleInputChange}
               />
             </div>
             <div className="college-input-card">
@@ -167,7 +211,8 @@ export const CampusStudent = () => {
                 type="text"
                 placeholder="Tag Name"
                 name="tag_name"
-                value={campusDetails?.tag_name}
+                value={editedFields?.tag_name}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -175,30 +220,31 @@ export const CampusStudent = () => {
             <div className="college-input-card">
               <label>Maximum Student:</label>
               <input
-                type="text"
+                type="number"
                 placeholder="Maximum Student"
                 name="max_student_count"
-                value={campusDetails?.max_student_count}
+                value={editedFields?.max_student_count}
+                onChange={handleInputChange}
               />
             </div>
-            <div className="college-input-card">
+            <div className="campus-input-card">
               <label>Uniform:</label>
-              <input
-                type="text"
-                placeholder="Delivery Time"
+              <select
                 name="uniform"
-                value={campusDetails?.uniform}
-              />
+                value={editedFields?.uniform ? "true" : "false"}
+                onChange={handleInputChange}
+                className="CollegeEmployee"
+              >
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
             </div>
           </div>
           <div className="college-input-container">
             <div className="college-input-card">
               <label>Created At:</label>
-
               <input
                 type="text"
-                placeholder="updated_at"
-                name="created_at"
                 value={
                   campusDetails?.created_at
                     ? formatDate(campusDetails.created_at)
@@ -211,8 +257,6 @@ export const CampusStudent = () => {
               <label>Updated At:</label>
               <input
                 type="text"
-                placeholder="updated_at"
-                name="updated_at"
                 value={
                   campusDetails?.updated_at
                     ? formatDate(campusDetails.updated_at)
@@ -222,30 +266,46 @@ export const CampusStudent = () => {
               />
             </div>
           </div>
+          <div className="campusSubmitButton">
+            <button type="submit" className="subButton2">
+              Update
+            </button>
+            <button
+              type="button"
+              className="subButton1"
+              onClick={handleCampusDelete}
+            >
+              Delete
+            </button>
+          </div>
         </form>
-        <div className="campusSubmitButton">
-          <button className="subButton2">Update</button>
-        </div>
       </div>
-      <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
+
+      {/* Student and Faculty Tables */}
+      <div className="m-2 md:m-10 mt-6 p-2 md:p-4 bg-white rounded-3xl">
         <Header
-          title="Student List "
+          title="Student List"
           buttonName="Add Student"
           Buttonlink={`/add-student/${id}`}
         />
         <CampusTable
-          columns={Columns}
+          columns={studentColumns}
           data={studentList}
           tabletype="CampusStudentList"
         />
       </div>
-      <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
+
+      <div className="m-2 md:m-10 mt-6 p-2 md:p-4 bg-white rounded-3xl">
         <Header
-          title="Faculty List "
+          title="Faculty List"
           buttonName="Add Faculty"
           Buttonlink={`/add-faculty/${id}`}
         />
-        <CampusTable columns={Columns2} data={facultyList} />
+        <CampusTable
+          columns={facultyColumns}
+          data={facultyList}
+          tabletype="CampusFacultyList"
+        />
       </div>
     </>
   );

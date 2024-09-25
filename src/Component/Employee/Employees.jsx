@@ -77,6 +77,8 @@ export const Employees = () => {
         title="Empolyee"
         buttonName="Add Employee"
         Buttonlink="/add-employee"
+        itmeList={employeeList}
+        setItemList={setEmployeeList}
       />
       <EmployeeTable columns={Columns} data={employeeList} />
     </div>

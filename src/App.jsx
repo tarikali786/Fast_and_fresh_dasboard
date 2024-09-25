@@ -23,7 +23,7 @@ const App = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (refresh_token) {
-        refreshAccessToken(refresh_token, setAccessToken);
+        RefreshAccessToken(refresh_token, setAccessToken);
       }
     }, 59 * 60 * 1000);
 

@@ -1,68 +1,118 @@
 import { useEffect, useState } from "react";
 import { Loading } from "../Common";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./style.css";
-import { get } from "../../hooks/api";
+import { get, patch, remove } from "../../hooks/api"; // Assuming patch is your API method for updating
 
 export const StudentDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-
-  const [StudentDetails, setStudentDetails] = useState(null);
+  const [studentDetails, setStudentDetails] = useState(null);
+  const [editedFields, setEditedFields] = useState({}); // State for edited fields
   const api = `${import.meta.env.VITE_API_URL}/college/student/${id}/`;
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate(-1); // Go to the previous page in the browser history
+    navigate(-1);
   };
 
-  const FetchStudentDetails = async () => {
-    const response = await get(api);
-    setStudentDetails(response?.data);
-    setLoading(false);
+  const fetchStudentDetails = async () => {
+    try {
+      const response = await get(api);
+      setStudentDetails(response?.data);
+      setEditedFields({
+        name: response?.data?.name || "",
+        email: response?.data?.email || "",
+        mobile: response?.data?.mobile || "",
+        dob: response?.data?.dob || "",
+        branch: response?.data?.branch || "",
+        tag_number: response?.data?.tag_number || "",
+        year: response?.data?.year || "",
+      });
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching student details:", error);
+      setLoading(false);
+    }
   };
+
   useEffect(() => {
     setLoading(true);
-    FetchStudentDetails();
+    fetchStudentDetails();
   }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedFields((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault(); // Prevent the default form submission
+    try {
+      const response = await patch(api, editedFields);
+      if (response.status === 200) {
+        alert("Student details updated successfully!");
+        fetchStudentDetails(); // Refetch details to get updated data
+      }
+    } catch (error) {
+      console.error("Error updating student details:", error);
+      alert("Failed to update student details.");
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-
     const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
-
     let hours = date.getHours();
     const minutes = String(date.getMinutes()).padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
-
     hours = hours % 12 || 12;
     const formattedTime = `${hours}:${minutes}${ampm}`;
-
     return `${day}-${month}-${year} T ${formattedTime}`;
+  };
+
+  const handleStudentDelete = async () => {
+    const deleteApi = `${import.meta.env.VITE_API_URL}/college/student/${id}/`;
+
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this Student?"
+    );
+
+    if (confirmation) {
+      await remove(deleteApi);
+      navigate("/college");
+    } else {
+      console.log("Student deletion canceled");
+    }
   };
 
   if (loading) return <Loading />;
 
   return (
-    <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
+    <div className="m-2 md:m-10 mt-6 p-2 md:p-4 bg-white rounded-3xl">
       <div>
         <button onClick={goBack} className="previousArrow">
           &#8592;
         </button>
       </div>
-      <h1 className="COllegeheading">Student Details</h1>
-      <p>{StudentDetails?.uid}</p>
-      <form>
+      <h1 className="Collegeheading">Student Details</h1>
+      <p>{studentDetails?.uid}</p>
+      <form onSubmit={handleUpdate}>
+        {/* Form fields */}
         <div className="college-input-container">
           <div className="college-input-card">
             <label>Student Name:</label>
             <input
               type="text"
-              placeholder="Campus Name"
+              placeholder="Student Name"
               name="name"
-              value={StudentDetails?.name}
+              value={editedFields.name} // Use the edited value
+              onChange={handleInputChange}
             />
           </div>
           <div className="college-input-card">
@@ -71,7 +121,8 @@ export const StudentDetails = () => {
               type="text"
               placeholder="Email"
               name="email"
-              value={StudentDetails?.email}
+              value={editedFields.email} // Use the edited value
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -82,20 +133,20 @@ export const StudentDetails = () => {
               type="number"
               placeholder="Mobile"
               name="mobile"
-              value={StudentDetails?.mobile}
+              value={editedFields.mobile} // Use the edited value
+              onChange={handleInputChange}
             />
           </div>
           <div className="college-input-card">
             <label>DOB:</label>
             <input
               type="date"
-              placeholder="Delivery Time"
-              name="delivery_time"
-              value={StudentDetails?.dob}
+              name="dob"
+              value={editedFields.dob} // Use the edited value
+              onChange={handleInputChange}
             />
           </div>
         </div>
-
         <div className="college-input-container">
           <div className="college-input-card">
             <label>Branch:</label>
@@ -103,7 +154,8 @@ export const StudentDetails = () => {
               type="text"
               placeholder="Branch"
               name="branch"
-              value={StudentDetails?.branch}
+              value={editedFields.branch} // Use the edited value
+              onChange={handleInputChange}
             />
           </div>
           <div className="college-input-card">
@@ -112,33 +164,31 @@ export const StudentDetails = () => {
               type="number"
               placeholder="Tag Number"
               name="tag_number"
-              value={StudentDetails?.tag_number}
+              value={editedFields.tag_number} // Use the edited value
+              onChange={handleInputChange}
             />
           </div>
         </div>
-
         <div className="college-input-container">
           <div className="college-input-card">
             <label>Year:</label>
             <input
               type="date"
-              placeholder="Year"
               name="year"
-              value={StudentDetails?.year}
+              value={editedFields.year} // Use the edited value
+              onChange={handleInputChange}
             />
           </div>
         </div>
         <div className="college-input-container">
           <div className="college-input-card">
             <label>Created At:</label>
-
             <input
               type="text"
-              placeholder="updated_at"
               name="created_at"
               value={
-                StudentDetails?.created_at
-                  ? formatDate(StudentDetails.created_at)
+                studentDetails?.created_at
+                  ? formatDate(studentDetails.created_at)
                   : ""
               }
               readOnly
@@ -148,21 +198,29 @@ export const StudentDetails = () => {
             <label>Updated At:</label>
             <input
               type="text"
-              placeholder="updated_at"
               name="updated_at"
               value={
-                StudentDetails?.updated_at
-                  ? formatDate(StudentDetails.updated_at)
+                studentDetails?.updated_at
+                  ? formatDate(studentDetails.updated_at)
                   : ""
               }
               readOnly
             />
           </div>
         </div>
+        <div className="campusSubmitButton">
+          <button type="submit" className="subButton2">
+            Update
+          </button>
+          <button
+            type="button"
+            className="subButton1"
+            onClick={handleStudentDelete}
+          >
+            Delete
+          </button>
+        </div>
       </form>
-      <div className="campusSubmitButton">
-        <button className="subButton2">Update</button>
-      </div>
     </div>
   );
 };

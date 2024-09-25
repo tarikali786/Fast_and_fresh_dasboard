@@ -77,6 +77,8 @@ export const RouteList = () => {
         title="Route"
         buttonName="Add Route"
         Buttonlink="/add-route"
+        itmeList={routeList}
+        setItemList={setRouteList}
       />
       <RouteTable columns={Columns} data={routeList} />
     </div>
