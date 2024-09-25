@@ -323,7 +323,7 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
             <label>Daily Image Sheet :</label>
             <div className="collectionImgeCard">
               {collectionDetails?.daily_image_sheet?.length === 0 ? (
-              <p className="notUploadedtext">Not Uploaded Yet</p>
+                <p className="notUploadedtext">Not Uploaded Yet</p>
               ) : (
                 <>
                   {collectionDetails?.daily_image_sheet.map((img, index) => (
