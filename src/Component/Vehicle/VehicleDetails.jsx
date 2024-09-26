@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loading } from "../Common";
 import { get, patch, remove } from "../../hooks/api"; // Assuming you have patch method
-import { fetchEmployeTypeList } from "../../utils";
+import { fetchEmployeTypeList, formatDate } from "../../utils";
 
 export const VehicleDetails = () => {
   const { id } = useParams();
@@ -52,18 +52,7 @@ export const VehicleDetails = () => {
     navigate(-1);
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}:${minutes}${ampm}`;
-    return `${day}-${month}-${year} T ${formattedTime}`;
-  };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

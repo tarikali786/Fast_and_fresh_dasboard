@@ -3,6 +3,7 @@ import { Loading } from "../Common";
 import { useParams, useNavigate } from "react-router-dom";
 import "./style.css";
 import { get, patch, remove } from "../../hooks/api"; // Assuming patch is your API method for updating
+import { formatDate } from "../../utils";
 
 export const FacultyDetails = () => {
   const { id } = useParams();
@@ -52,18 +53,6 @@ export const FacultyDetails = () => {
       console.error("Error updating faculty details:", error);
       alert("Failed to update faculty details.");
     }
-  };
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}:${minutes}${ampm}`;
-    return `${day}-${month}-${year} T ${formattedTime}`;
   };
 
   // Delete employee

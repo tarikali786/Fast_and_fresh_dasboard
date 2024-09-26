@@ -5,6 +5,7 @@ import { Loading } from "../Common";
 import { useEffect, useMemo, useState } from "react";
 import "./style.css";
 import { get, patch, remove } from "../../hooks/api"; // Assuming you have a patch method in your API hooks
+import { formatDate } from "../../utils";
 
 export const CampusStudent = () => {
   const { id } = useParams();
@@ -75,20 +76,6 @@ export const CampusStudent = () => {
       console.error("Error updating campus details:", error);
       alert("Failed to update campus details.");
     }
-  };
-
-  // Format Date
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-    const year = date.getFullYear();
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}:${minutes}${ampm}`;
-    return `${day}-${month}-${year} T ${formattedTime}`;
   };
 
   // Column configuration for tables

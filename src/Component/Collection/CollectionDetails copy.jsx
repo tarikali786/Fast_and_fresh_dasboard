@@ -1,10 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Loading } from "../Common";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "./style.css";
-import { CollectionTable2 } from "./CollectionTable2";
 import {
   CampusPickupbagnumberColumn,
   FacultyColumn,
@@ -16,11 +13,26 @@ import {
   WarehouseRemarkColumn,
 } from "./TableColumn";
 import { get } from "../../hooks/api";
+import { formatDate } from "../../utils";
+import "./style.css";
 
 export const CollectionDetails = ({ setTableData, setTableColumn }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
+  const [updateFormData, setUpdateFormData] = useState({
+    ETA: "",
+    current_status: "",
+    no_tag: "",
+    total_cloths: "",
+    total_uniforms: "",
+    supervisor: "",
+    segregation_supervisor: "",
+    drying_supervisor: "",
+    pickup_driver: "",
+    drop_driver: "",
+    washing_supervisor: "",
+  });
 
   const [collectionDetails, setCollectionDetails] = useState(null);
   const api = `${import.meta.env.VITE_API_URL}/college/collection/${id}/`;
@@ -34,42 +46,92 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
     setLoading(true);
     const response = await get(api);
     setCollectionDetails(response?.data?.data);
-    console.log(response.data.data);
+    setUpdateFormData({
+      ETA: response?.data?.data?.ETA,
+      current_status: response?.data?.data?.current_status,
+      no_tag: response?.data?.data?.no_tag,
+      total_cloths: response?.data?.data?.total_cloths,
+      total_uniforms: response?.data?.data?.total_uniforms,
+      supervisor: response?.data?.data?.supervisor,
+      segregation_supervisor: response?.data?.data?.segregation_supervisor,
+      drying_supervisor: response?.data?.data?.drying_supervisor,
+      pickup_driver: response?.data?.data?.pickup_driver,
+      drop_driver: response?.data?.data?.drop_driver,
+      washing_supervisor: response?.data?.data?.washing_supervisor,
+    });
 
     setLoading(false);
-  };
-
-  useEffect(() => {
-    FetchCollectionDetails();
-  }, []);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const year = date.getFullYear();
-
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}:${minutes}${ampm}`;
-
-    return `${day}-${month}-${year} T ${formattedTime}`;
   };
 
   const FetchEmployeeList = async () => {
     setLoading(true);
     const api1 = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
     const response = await get(api1);
-
     setEmployeeList(response.data.data);
     setLoading(false);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const CollectionStatus = [
+    {
+      name: "READY TO PICK",
+      value: "READY_TO_PICK",
+    },
+    {
+      name: "INTRANSIT FROM CAMPUS",
+      value: "INTRANSIT_FROM_cAMPUS",
+    },
+    {
+      name: "DELIVERED TO WAREHOUSE",
+      value: "DELIVERED_TO_WAREHOUSE",
+    },
+    {
+      name: "WASHING",
+      value: "WASHING",
+    },
+    {
+      name: "WASHING DONE",
+      value: "WASHING_DONE",
+    },
+    {
+      name: "DRYING",
+      value: "DRYING",
+    },
+    {
+      name: "DRYING DONE",
+      value: "DRYING_DONE",
+    },
+    {
+      name: "IN SEGREGATION",
+      value: "IN_SEGREGATION",
+    },
+    {
+      name: "READY FOR DELIVERY",
+      value: "READY_FOR_DELIVERY",
+    },
+    {
+      name: "INTRANSIT FROM WAREHOUSE",
+      value: "INTRANSIT_FROM_WAREHOUSE",
+    },
+    {
+      name: "DELIVERED TO CAMPUS",
+      value: "DELIVERED_TO_CAMPUS",
+    },
+    {
+      name: "DELIVERED TO STUDENT",
+      value: "DELIVERED_TO_STUDENT",
+    },
+  ];
+
   useEffect(() => {
+    FetchCollectionDetails();
     FetchEmployeeList();
   }, []);
 
@@ -102,21 +164,27 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
               type="text"
               placeholder="ETA"
               name="ETA"
-              value={collectionDetails?.ETA}
-              readOnly
+              value={updateFormData?.ETA}
+              onChange={handleChange}
             />
           </div>
         </div>
         <div className="college-input-container">
-          <div className="college-input-card">
+          <div className="campus-input-card">
             <label>Current Status:</label>
-            <input
-              type="text"
-              placeholder="current_status"
+
+            <select
               name="current_status"
-              value={collectionDetails?.current_status}
-              readOnly
-            />
+              onChange={handleChange}
+              className="CollegeEmployee"
+              value={updateFormData?.current_status}
+            >
+              {CollectionStatus.map((e) => (
+                <option key={e.uid} value={e.value}>
+                  {e.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="college-input-card">
             <label>No Tag Count:</label>
@@ -124,8 +192,8 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
               type="number"
               placeholder="no_tag"
               name="no_tag"
-              value={collectionDetails?.no_tag}
-              readOnly
+              value={updateFormData?.no_tag}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -137,8 +205,8 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
               type="number"
               placeholder="Total Cloths"
               name="total_cloths"
-              value={collectionDetails?.total_cloths}
-              readOnly
+              value={updateFormData?.total_cloths}
+              onChange={handleChange}
             />
           </div>
           <div className="college-input-card">
@@ -147,8 +215,8 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
               type="number"
               placeholder="Total Uniforms"
               name="total_uniforms"
-              value={collectionDetails?.total_uniforms}
-              readOnly
+              value={updateFormData?.total_uniforms}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -156,72 +224,113 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
         <div className="campus-input-container">
           <div className="campus-input-card  ">
             <label>Campus Supervisor:</label>
-            <input
-              type="text"
-              placeholder="Campus Supervisor"
+            <select
               name="supervisor"
-              value={collectionDetails?.supervisor?.name || ""}
-              readOnly
-            />
+              onChange={handleChange}
+              className="CollegeEmployee"
+              value={updateFormData?.supervisor?.uid || ""}
+            >
+              {employeeList
+                .filter((e) => e.employee_type === "Campus_Employee")
+                .map((e) => (
+                  <option key={e.uid} value={e.uid}>
+                    {e.name}
+                  </option>
+                ))}
+            </select>
           </div>
           <div className="campus-input-card  ">
             <label> Segregation Supervisor:</label>
-            <input
-              type="text"
-              placeholder="Segregation Supervisor"
+            <select
               name="segregation_supervisor"
-              value={collectionDetails?.segregation_supervisor?.name || ""}
-              readOnly
-            />
+              onChange={handleChange}
+              className="CollegeEmployee"
+              value={updateFormData?.segregation_supervisor?.uid || ""}
+            >
+              {employeeList
+                .filter((e) => e.employee_type === "Segregation")
+                .map((e) => (
+                  <option key={e.uid} value={e.uid}>
+                    {e.name}
+                  </option>
+                ))}
+            </select>
           </div>
         </div>
 
         <div className="campus-input-container">
           <div className="campus-input-card  ">
             <label> Washing Supervisor:</label>
-            <input
-              type="text"
-              placeholder="Washing Supervisor"
+            <select
               name="washing_supervisor"
-              value={collectionDetails?.washing_supervisor?.name || ""}
-              readOnly
-            />
+              onChange={handleChange}
+              className="CollegeEmployee"
+              value={updateFormData?.washing_supervisor?.uid || ""}
+            >
+              {employeeList
+                .filter((e) => e.employee_type === "Washing")
+                .map((e) => (
+                  <option key={e.uid} value={e.uid}>
+                    {e.name}
+                  </option>
+                ))}
+            </select>
           </div>
           <div className="campus-input-card  ">
             <label> Drying Supervisor:</label>
-            <input
-              type="text"
-              placeholder="Drying Supervisor"
+            <select
               name="drying_supervisor"
-              value={collectionDetails?.drying_supervisor?.name || ""}
-              readOnly
-            />
+              onChange={handleChange}
+              className="CollegeEmployee"
+              value={collectionDetails?.drying_supervisor?.uid || ""}
+            >
+              {employeeList
+                .filter((e) => e.employee_type === "Drying")
+                .map((e) => (
+                  <option key={e.uid} value={e.uid}>
+                    {e.name}
+                  </option>
+                ))}
+            </select>
           </div>
         </div>
 
         <div className="campus-input-container">
           <div className="campus-input-card  ">
             <label> Pickup Driver:</label>
-            <input
-              type="text"
-              placeholder=" Pickup Driver"
+            <select
               name="pickup_driver"
-              value={collectionDetails?.pickup_driver?.name || ""}
-              readOnly
-            />
+              onChange={handleChange}
+              className="CollegeEmployee"
+              value={collectionDetails?.pickup_driver?.uid || ""}
+            >
+              {employeeList
+                .filter((e) => e.employee_type === "Driver")
+                .map((e) => (
+                  <option key={e.uid} value={e.uid}>
+                    {e.name}
+                  </option>
+                ))}
+            </select>
           </div>
           <div className="campus-input-card  ">
             <label> Drop Driver:</label>
-            <input
-              type="text"
-              placeholder=" Drop Driver"
+            <select
               name="drop_driver"
-              value={collectionDetails?.drop_driver?.name || ""}
-              readOnly
-            />
+              onChange={handleChange}
+              className="CollegeEmployee"
+              value={collectionDetails?.drop_driver?.uid || ""}
+            >
+              {employeeList
+                .filter((e) => e.employee_type === "Driver")
+                .map((e) => (
+                  <option key={e.uid} value={e.uid}>
+                    {e.name}
+                  </option>
+                ))}
+            </select>
           </div>
         </div>
-
         <div className="college-input-container">
           <div className="college-input-card">
             <label>Completed Segregation Range:</label>
@@ -239,6 +348,7 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
             />
           </div>
         </div>
+
         <div className=" collectionImgeContainer">
           <div className="college-input-card1 collectionImgeSubContainer ">
             <label>Daily Image Sheet :</label>
@@ -392,6 +502,9 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
               readOnly
             />
           </div>
+        </div>
+        <div className="campusSubmitButton">
+          <button className="subButton2">Update</button>
         </div>
       </form>
       <div className="campusSubmitButton1">
@@ -572,9 +685,6 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
           Warehouse Other Cloth Drop
         </Link>
       </div>
-      {/* <div className="campusSubmitButton">
-        <button className="subButton2">Update</button>
-      </div> */}
     </div>
   );
 };
