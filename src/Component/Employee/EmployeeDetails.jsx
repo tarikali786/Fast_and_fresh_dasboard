@@ -33,7 +33,9 @@ export const EmployeeDetails = () => {
   const FetchemployeeDetails = async () => {
     const response = await get(api);
     setEmployeeDetails(response?.data?.data);
-    const { name, email, mobile, aadhar_number, employee_type, dob } = response?.data?.data;
+
+    const { name, email, mobile, aadhar_number, employee_type, dob, password } =
+      response?.data?.data;
 
     setUpdateEmployee({
       name: name,
@@ -42,6 +44,7 @@ export const EmployeeDetails = () => {
       aadhar_number: aadhar_number,
       employee_type: employee_type,
       dob: dob,
+      password: password,
     });
     setLoading(false);
   };
@@ -162,7 +165,19 @@ export const EmployeeDetails = () => {
             />
           </div>
         </div>
-
+        <div className="college-input-container">
+          <div className="college-input-card">
+            <label>Password:</label>
+            <input
+              type="text"
+              placeholder="password"
+              name="password"
+              value={updateEmployee?.password || ""}
+              onChange={handleInputChange}
+              // readOnly
+            />
+          </div>
+        </div>
         <div className="college-input-container">
           <div className="college-input-card">
             <label>Mobile Number:</label>

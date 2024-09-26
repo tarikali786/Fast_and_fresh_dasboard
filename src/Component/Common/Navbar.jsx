@@ -7,6 +7,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 import { useEffect, useState } from "react";
 import { json, Link } from "react-router-dom";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <div title={title}>
@@ -24,6 +25,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
     </button>
   </div>
 );
+
 export const Navbar = () => {
   const {
     activeMenu,
@@ -47,14 +49,32 @@ export const Navbar = () => {
       setActiveMenu(true);
     }
   }, [screenSize]);
+
   const access_token = Cookies.get("access_token");
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = async () => {
-    localStorage.removeItem("user");
-    Cookies.remove("access_token");
-    Cookies.remove("refresh_token");
-    window.location.reload();
+    const api = `${import.meta.env.VITE_API_URL}/college/logout/`;
+    const access_token = Cookies.get("access_token");
+    const refresh_token = Cookies.get("refresh_token");
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+    };
+
+    try {
+      const response = await axios.post(api, { refresh_token }, { headers });
+
+      if (response.status === 200) {
+        localStorage.removeItem("user");
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
   };
 
   return (

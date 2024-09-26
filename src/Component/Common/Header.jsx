@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { IoReload } from "react-icons/io5";
 import "./header.css";
 import { useState } from "react";
 
