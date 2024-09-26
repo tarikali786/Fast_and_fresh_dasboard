@@ -73,10 +73,6 @@ export const Navbar = () => {
         window.location.reload();
       }
     } catch (error) {
-      localStorage.removeItem("user");
-      Cookies.remove("access_token");
-      Cookies.remove("refresh_token");
-      window.location.reload();
       console.log("Logout error:", error);
     }
   };
