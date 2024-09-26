@@ -13,14 +13,22 @@ export const Employees = () => {
       },
       {
         name: "Profile Image",
-        selector: (row) => (
-          <img
-            width={70}
-            height={60}
-            className="rounded-lg my-2"
-            src={`${import.meta.env.VITE_API_URL}${row.profile_image}`}
-          />
-        ),
+        selector: (row) =>
+          row.profile_image ? (
+            <img
+              width={70}
+              height={60}
+              className="rounded-lg my-2"
+              src={`${import.meta.env.VITE_API_URL}${row.profile_image}`}
+            />
+          ) : (
+            <img
+              width={70}
+              height={60}
+              className="rounded-lg my-2"
+              src="http://13.201.135.134:1337/uploads/thumbnail_download_714e8032dc.jpg"
+            />
+          ),
       },
       {
         name: "Name",
