@@ -20,6 +20,7 @@ export const College = () => {
   useEffect(() => {
     FetchCollegeList();
   }, []);
+  console.log(collegeList);
 
   const Columns = useMemo(() => {
     return [
@@ -51,7 +52,7 @@ export const College = () => {
       },
       {
         name: "Routes",
-        selector: (row) => (row.routes ? row.name : "No routes"),
+        selector: (row) => (row.routes?.name ? row?.routes?.name : "No routes"),
         sortable: true,
       },
       {
