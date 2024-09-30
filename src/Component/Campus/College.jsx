@@ -20,7 +20,6 @@ export const College = () => {
   useEffect(() => {
     FetchCollegeList();
   }, []);
-  console.log(collegeList);
 
   const Columns = useMemo(() => {
     return [
