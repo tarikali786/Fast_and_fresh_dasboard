@@ -9,3 +9,6 @@ body {
 @tailwind components;
 @tailwind utilities;
 
+.djUvQc div:first-child {
+  text-wrap: balance !important;
+}
