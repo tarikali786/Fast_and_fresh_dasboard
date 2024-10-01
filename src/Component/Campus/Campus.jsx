@@ -77,6 +77,7 @@ export const Campus = () => {
     delivery_time: "",
     campus_employee: [],
     route_uid: "",
+    isActive: "",
   });
 
   const api = `${
@@ -98,6 +99,7 @@ export const Campus = () => {
       delivery_time: collegeData?.delivery_time,
       campus_employee: collegeData?.campus_employee?.map((emp) => emp.uid),
       route_uid: collegeData?.routes?.uid,
+      isActive: collegeData?.isActive,
     });
     setLoading(false);
   };
@@ -171,7 +173,6 @@ export const Campus = () => {
     }
   };
 
-  console.log(campusList);
 
   const handleSearch = (e) => {
     const input = e.target.value.trim().toLowerCase();
@@ -293,6 +294,25 @@ export const Campus = () => {
                     {e.name}
                   </option>
                 ))}
+              </select>
+            </div>
+          </div>
+          <div className="college-input-container">
+            <div className="campus-input-card">
+              <label>IsAcitve:</label>
+              <select
+                name="isActive"
+                value={formState.isActive ? "true" : "false"}
+                onChange={(e) =>
+                  setFormState((prev) => ({
+                    ...prev,
+                    isActive: e.target.value === "true", // Convert string to boolean
+                  }))
+                }
+                className="CollegeEmployee"
+              >
+                <option value="true">True</option>
+                <option value="false">False</option>
               </select>
             </div>
           </div>

@@ -44,7 +44,8 @@ export const CampusStudent = () => {
         name: data?.name || "",
         tag_name: data?.tag_name || "",
         max_student_count: data?.max_student_count || "",
-        uniform: data?.uniform || "",
+        uniform: data?.uniform,
+        isActive: data?.isActive,
       });
     } catch (error) {
       console.error("Error fetching campus details:", error);
@@ -266,7 +267,31 @@ export const CampusStudent = () => {
               <select
                 name="uniform"
                 value={editedFields?.uniform ? "true" : "false"}
-                onChange={handleInputChange}
+                onChange={(e) =>
+                  setEditedFields((prev) => ({
+                    ...prev,
+                    uniform: e.target.value === "true",
+                  }))
+                }
+                className="CollegeEmployee"
+              >
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+            </div>
+          </div>
+          <div className="college-input-container">
+            <div className="campus-input-card">
+              <label>IsAcitve:</label>
+              <select
+                name="isActive"
+                value={editedFields.isActive ? "true" : "false"}
+                onChange={(e) =>
+                  setEditedFields((prev) => ({
+                    ...prev,
+                    isActive: e.target.value === "true", // Convert string to boolean
+                  }))
+                }
                 className="CollegeEmployee"
               >
                 <option value="true">True</option>

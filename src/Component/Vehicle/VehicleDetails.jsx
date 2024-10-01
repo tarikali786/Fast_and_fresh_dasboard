@@ -18,6 +18,7 @@ export const VehicleDetails = () => {
     odo_meter: "",
     last_driver_uid: "",
     fuel_level: "",
+    isActive: "",
   });
 
   const api = `${import.meta.env.VITE_API_URL}/college/vehicle/${id}/`;
@@ -36,6 +37,7 @@ export const VehicleDetails = () => {
         odo_meter: response?.data?.odo_meter || "",
         last_driver_uid: response?.data?.last_driver?.uid || "",
         fuel_level: response?.data?.fuel_level || "",
+        isActive: response?.data?.isActive || "",
       });
     } catch (error) {
       console.error("Failed to fetch vehicle details:", error);
@@ -51,8 +53,6 @@ export const VehicleDetails = () => {
   const goBack = () => {
     navigate(-1);
   };
-
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -177,6 +177,26 @@ export const VehicleDetails = () => {
             />
           </div>
         </div>
+        <div className="college-input-container">
+          <div className="campus-input-card">
+            <label>IsAcitve:</label>
+            <select
+              name="isActive"
+              value={formData.isActive ? "true" : "false"}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  isActive: e.target.value === "true", // Convert string to boolean
+                }))
+              }
+              className="CollegeEmployee"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          </div>
+        </div>
+
         <div className="college-input-container">
           <div className="college-input-card">
             <label>Created At:</label>

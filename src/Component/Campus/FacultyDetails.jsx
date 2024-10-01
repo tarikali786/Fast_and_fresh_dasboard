@@ -9,7 +9,7 @@ export const FacultyDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [facultyDetails, setFacultyDetails] = useState(null);
-  const [editedFields, setEditedFields] = useState({ name: "" }); // Initialize with an empty name
+  const [editedFields, setEditedFields] = useState({ name: "", isActive: "" }); // Initialize with an empty name
   const api = `${import.meta.env.VITE_API_URL}/college/faculty/${id}/`;
   const navigate = useNavigate();
 
@@ -21,7 +21,10 @@ export const FacultyDetails = () => {
     try {
       const response = await get(api);
       setFacultyDetails(response?.data);
-      setEditedFields({ name: response?.data.name }); // Initialize editedFields with the fetched name
+      setEditedFields({
+        name: response?.data.name,
+        isActive: response?.data?.isActive,
+      }); // Initialize editedFields with the fetched name
       setLoading(false);
     } catch (error) {
       console.error("Error fetching faculty details:", error);
@@ -90,9 +93,28 @@ export const FacultyDetails = () => {
               type="text"
               placeholder="Faculty Name"
               name="name"
-              value={editedFields.name} // Use the edited value
+              value={editedFields?.name}
               onChange={handleInputChange}
             />
+          </div>
+        </div>
+        <div className="college-input-container">
+          <div className="campus-input-card">
+            <label>IsAcitve:</label>
+            <select
+              name="isActive"
+              value={editedFields.isActive ? "true" : "false"}
+              onChange={(e) =>
+                setEditedFields((prev) => ({
+                  ...prev,
+                  isActive: e.target.value === "true", // Convert string to boolean
+                }))
+              }
+              className="CollegeEmployee"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
           </div>
         </div>
         <div className="college-input-container">

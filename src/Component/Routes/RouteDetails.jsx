@@ -12,6 +12,7 @@ export const RouteDetails = () => {
   const [updateRoute, setUpdateRoute] = useState({
     name: "",
     employee_uid: "",
+    isActive: "",
   });
 
   const api = `${import.meta.env.VITE_API_URL}/college/routes/${id}/`;
@@ -19,15 +20,16 @@ export const RouteDetails = () => {
   const fetchRouteDetail = async () => {
     setLoading(true);
     const response = await get(api);
-    const { name, employee } = response.data;
+    const { name, employee, isActive } = response.data;
     setRouteDetails(response.data);
     setUpdateRoute({
       name: name || "",
       employee_uid: employee?.uid || "",
+      isActive: isActive || "",
     });
     setLoading(false);
-
   };
+  console.log(routeDetail);
 
   const fetchEmployeeList = async () => {
     try {
@@ -134,6 +136,25 @@ export const RouteDetails = () => {
                   {employee.name}
                 </option>
               ))}
+            </select>
+          </div>
+        </div>
+        <div className="college-input-container">
+          <div className="campus-input-card">
+            <label>IsAcitve:</label>
+            <select
+              name="isActive"
+              value={updateRoute.isActive ? "true" : "false"}
+              onChange={(e) =>
+                setUpdateRoute((prev) => ({
+                  ...prev,
+                  isActive: e.target.value === "true", // Convert string to boolean
+                }))
+              }
+              className="CollegeEmployee"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
             </select>
           </div>
         </div>

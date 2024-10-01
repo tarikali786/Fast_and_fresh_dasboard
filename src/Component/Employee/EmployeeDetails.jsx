@@ -24,6 +24,7 @@ export const EmployeeDetails = () => {
     aadhar_number: "",
     employee_type: "",
     dob: "",
+    isActive: "",
   });
   const api = `${
     import.meta.env.VITE_API_URL
@@ -34,8 +35,16 @@ export const EmployeeDetails = () => {
     const response = await get(api);
     setEmployeeDetails(response?.data?.data);
 
-    const { name, email, mobile, aadhar_number, employee_type, dob, password } =
-      response?.data?.data;
+    const {
+      name,
+      email,
+      mobile,
+      aadhar_number,
+      employee_type,
+      dob,
+      password,
+      is_active,
+    } = response?.data?.data;
 
     setUpdateEmployee({
       name: name,
@@ -45,6 +54,7 @@ export const EmployeeDetails = () => {
       employee_type: employee_type,
       dob: dob,
       password: password,
+      is_active: is_active,
     });
     setLoading(false);
   };
@@ -177,6 +187,17 @@ export const EmployeeDetails = () => {
               // readOnly
             />
           </div>
+          <div className="college-input-card">
+            <label>DOB:</label>
+            <input
+              type="date"
+              placeholder="DOB"
+              name="dob"
+              value={updateEmployee?.dob || ""}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
         </div>
         <div className="college-input-container">
           <div className="college-input-card">
@@ -221,16 +242,22 @@ export const EmployeeDetails = () => {
               ))}
             </select>
           </div>
-          <div className="college-input-card">
-            <label>DOB:</label>
-            <input
-              type="date"
-              placeholder="DOB"
-              name="dob"
-              value={updateEmployee?.dob || ""}
-              onChange={handleInputChange}
-              required
-            />
+          <div className="campus-input-card">
+            <label>IsAcitve:</label>
+            <select
+              name="is_active"
+              value={updateEmployee.is_active ? "true" : "false"}
+              onChange={(e) =>
+                setUpdateEmployee((prev) => ({
+                  ...prev,
+                  is_active: e.target.value === "true", // Convert string to boolean
+                }))
+              }
+              className="CollegeEmployee"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
           </div>
         </div>
 

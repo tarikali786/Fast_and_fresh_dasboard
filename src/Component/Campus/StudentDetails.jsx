@@ -29,6 +29,7 @@ export const StudentDetails = () => {
         branch: response?.data?.branch || "",
         tag_number: response?.data?.tag_number || "",
         year: response?.data?.year || "",
+        isActive: response?.data?.isActive || "",
       });
       setLoading(false);
     } catch (error) {
@@ -51,7 +52,7 @@ export const StudentDetails = () => {
   };
 
   const handleUpdate = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
     try {
       const response = await patch(api, editedFields);
       if (response.status === 200) {
@@ -101,16 +102,18 @@ export const StudentDetails = () => {
               name="name"
               value={editedFields.name} // Use the edited value
               onChange={handleInputChange}
+              required
             />
           </div>
           <div className="college-input-card">
             <label>Email:</label>
             <input
-              type="text"
+              type="email"
               placeholder="Email"
               name="email"
               value={editedFields.email} // Use the edited value
               onChange={handleInputChange}
+              required
             />
           </div>
         </div>
@@ -123,6 +126,7 @@ export const StudentDetails = () => {
               name="mobile"
               value={editedFields.mobile} // Use the edited value
               onChange={handleInputChange}
+              required
             />
           </div>
           <div className="college-input-card">
@@ -132,6 +136,7 @@ export const StudentDetails = () => {
               name="dob"
               value={editedFields.dob} // Use the edited value
               onChange={handleInputChange}
+              required
             />
           </div>
         </div>
@@ -144,6 +149,7 @@ export const StudentDetails = () => {
               name="branch"
               value={editedFields.branch} // Use the edited value
               onChange={handleInputChange}
+              required
             />
           </div>
           <div className="college-input-card">
@@ -154,6 +160,7 @@ export const StudentDetails = () => {
               name="tag_number"
               value={editedFields.tag_number} // Use the edited value
               onChange={handleInputChange}
+              required
             />
           </div>
         </div>
@@ -161,11 +168,33 @@ export const StudentDetails = () => {
           <div className="college-input-card">
             <label>Year:</label>
             <input
-              type="date"
+              type="year"
+              placeholder="Year"
               name="year"
               value={editedFields.year} // Use the edited value
               onChange={handleInputChange}
+              required
             />
+          </div>
+        </div>
+        <div className="college-input-container">
+          <div className="campus-input-card">
+            <label>IsActive:</label>
+            <select
+              name="isActive"
+              value={editedFields.isActive ? "true" : "false"}
+              onChange={(e) =>
+                setEditedFields((prev) => ({
+                  ...prev,
+                  isActive: e.target.value === "true", // Convert string to boolean
+                }))
+              }
+              className="CollegeEmployee"
+              required
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
           </div>
         </div>
         <div className="college-input-container">
