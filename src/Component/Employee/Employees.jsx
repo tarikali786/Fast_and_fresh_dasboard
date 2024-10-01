@@ -11,25 +11,25 @@ export const Employees = () => {
         selector: (row) => row.id,
         sortable: true,
       },
-      {
-        name: "Profile Image",
-        selector: (row) =>
-          row.profile_image ? (
-            <img
-              width={70}
-              height={60}
-              className="rounded-lg my-2"
-              src={`${import.meta.env.VITE_API_URL}${row.profile_image}`}
-            />
-          ) : (
-            <img
-              width={70}
-              height={60}
-              className="rounded-lg my-2"
-              src="http://13.201.135.134:1337/uploads/thumbnail_download_714e8032dc.jpg"
-            />
-          ),
-      },
+      // {
+      //   name: "Profile Image",
+      //   selector: (row) =>
+      //     row.profile_image ? (
+      //       <img
+      //         width={70}
+      //         height={60}
+      //         className="rounded-lg my-2"
+      //         src={`${import.meta.env.VITE_API_URL}${row.profile_image}`}
+      //       />
+      //     ) : (
+      //       <img
+      //         width={70}
+      //         height={60}
+      //         className="rounded-lg my-2"
+      //         src="http://13.201.135.134:1337/uploads/thumbnail_download_714e8032dc.jpg"
+      //       />
+      //     ),
+      // },
       {
         name: "Name",
         selector: (row) => row.name,
@@ -61,12 +61,29 @@ export const Employees = () => {
         selector: (row) => row.last_login,
         sortable: true,
       },
+      {
+        name: "Status",
+        selector: (row) => row.is_active,
+        cell: (row) => {
+          const bgColorClass = row.is_active ? "bg-sky-400" : "bg-orange-500";
+          return (
+            <span
+              className={`border-1 w-20 flex justify-center py-2.5 text-white rounded-full ${bgColorClass}`}
+            >
+              {row.is_active ? "Active" : "Inactive"}
+            </span>
+          );
+        },
+        sortable: true,
+      },
     ];
   }, []);
 
   const [employeeList, setEmployeeList] = useState([]);
   const api = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredEmplList, setFilteredEmpList] = useState([]);
 
   const FetchCollegeList = async () => {
     setLoading(true);
@@ -77,6 +94,23 @@ export const Employees = () => {
   useEffect(() => {
     FetchCollegeList();
   }, []);
+
+  const handleSearch = (e) => {
+    const input = e.target.value.trim().toLowerCase();
+    setSearchTerm(input);
+  };
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredEmpList(employeeList);
+    } else {
+      const filteredData = employeeList.filter((emp) =>
+        emp.name.toLowerCase().includes(searchTerm)
+      );
+      setFilteredEmpList(filteredData);
+    }
+  }, [searchTerm, employeeList]);
+
   if (loading) return <Loading />;
 
   return (
@@ -85,10 +119,9 @@ export const Employees = () => {
         title="Empolyee"
         buttonName="Add Employee"
         Buttonlink="/add-employee"
-        itmeList={employeeList}
-        setItemList={setEmployeeList}
+        handleSearch={handleSearch}
       />
-      <EmployeeTable columns={Columns} data={employeeList} />
+      <EmployeeTable columns={Columns} data={filteredEmplList} />
     </div>
   );
 };

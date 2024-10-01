@@ -1,8 +1,6 @@
-import { ordersData } from "../../data/dummy";
 import { Header } from "../Common/Header";
 import { VehicleTable } from "./VehicleTable";
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import { Loading } from "../Common";
 import { get } from "../../hooks/api";
 
@@ -14,17 +12,17 @@ export const Vehicle = () => {
         selector: (row) => row.id,
         sortable: true,
       },
-      {
-        name: "Odo Meter Image",
-        selector: (row) => (
-          <img
-            width={70}
-            height={60}
-            className="rounded-lg my-2"
-            src={`${row.odo_meter_image}`}
-          />
-        ),
-      },
+      // {
+      //   name: "Odo Meter Image",
+      //   selector: (row) => (
+      //     <img
+      //       width={70}
+      //       height={60}
+      //       className="rounded-lg my-2"
+      //       src={`${row.odo_meter_image}`}
+      //     />
+      //   ),
+      // },
       {
         name: "Name",
         selector: (row) => row.name,
@@ -79,6 +77,8 @@ export const Vehicle = () => {
   const [vehicleList, setVehicleList] = useState([]);
   const [loading, setLoading] = useState(false);
   const api = `${import.meta.env.VITE_API_URL}/college/vehicle/`;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredVehicleList, setFilteredVehicleList] = useState([]);
 
   const FetchCollegeDetails = async () => {
     const response = await get(api);
@@ -90,19 +90,34 @@ export const Vehicle = () => {
     FetchCollegeDetails();
   }, []);
 
+  // Handle search input
+  const handleSearch = (e) => {
+    const input = e.target.value.trim().toLowerCase();
+    setSearchTerm(input);
+  };
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredVehicleList(vehicleList);
+    } else {
+      const filteredData = vehicleList.filter((veh) =>
+        veh.name.toLowerCase().includes(searchTerm)
+      );
+      setFilteredVehicleList(filteredData);
+    }
+  }, [searchTerm, vehicleList]);
+
   if (loading) return <Loading />;
 
   return (
     <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
       <Header
-        category="Page"
-        title="vehicle"
+        title="Vehicle"
         buttonName="Add Vehicle"
         Buttonlink="/add-vehicle"
-        itmeList={vehicleList}
-        setItemList={setVehicleList}
+        handleSearch={handleSearch}
       />
-      <VehicleTable columns={Columns} data={vehicleList} />
+      <VehicleTable columns={Columns} data={filteredVehicleList} />
     </div>
   );
 };

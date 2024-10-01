@@ -15,8 +15,12 @@ export const CampusStudent = () => {
   const [campusDetails, setCampusDetails] = useState(null);
   const [studentList, setStudentList] = useState([]);
   const [facultyList, setFacultyList] = useState([]);
-  const [loading, setLoading] = useState(true); // Default true to show loading at start
+  const [loading, setLoading] = useState(true);
   const [editedFields, setEditedFields] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchFcultyTerm, setSearchFacultyTerm] = useState("");
+  const [filteredStudentList, setFilteredStudentList] = useState([]);
+  const [filteredFacultyList, setFilteredFacultyList] = useState([]);
 
   // Navigate Back and Forward
   const goBack = () => navigate(-1);
@@ -142,6 +146,21 @@ export const CampusStudent = () => {
         selector: (row) => row.name,
         sortable: true,
       },
+      {
+        name: "Status",
+        selector: (row) => row.isActive,
+        cell: (row) => {
+          const bgColorClass = row.isActive ? "bg-sky-400" : "bg-orange-500";
+          return (
+            <span
+              className={`border-1 w-20 flex justify-center py-2.5 text-white rounded-full ${bgColorClass}`}
+            >
+              {row.isActive ? "Active" : "Inactive"}
+            </span>
+          );
+        },
+        sortable: true,
+      },
     ],
     []
   );
@@ -162,6 +181,34 @@ export const CampusStudent = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    const input = e.target.value.trim().toLowerCase();
+    setSearchTerm(input);
+  };
+  const handleFacultySearch = (e) => {
+    const input = e.target.value.trim().toLowerCase();
+    setSearchFacultyTerm(input);
+  };
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredStudentList(studentList);
+    } else {
+      const filteredData = studentList.filter((stu) =>
+        stu.name.toLowerCase().includes(searchTerm)
+      );
+      setFilteredStudentList(filteredData);
+    }
+  }, [searchTerm, studentList]);
+  useEffect(() => {
+    if (!searchFcultyTerm) {
+      setFilteredFacultyList(facultyList);
+    } else {
+      const filteredData = facultyList.filter((fac) =>
+        fac?.name?.toLowerCase().includes(searchFcultyTerm)
+      );
+      setFilteredFacultyList(filteredData);
+    }
+  }, [searchFcultyTerm, facultyList]);
   // Loading State
   if (loading) return <Loading />;
 
@@ -274,10 +321,11 @@ export const CampusStudent = () => {
           title="Student List"
           buttonName="Add Student"
           Buttonlink={`/add-student/${id}`}
+          handleSearch={handleSearch}
         />
         <CampusTable
           columns={studentColumns}
-          data={studentList}
+          data={filteredStudentList}
           tabletype="CampusStudentList"
         />
       </div>
@@ -287,10 +335,11 @@ export const CampusStudent = () => {
           title="Faculty List"
           buttonName="Add Faculty"
           Buttonlink={`/add-faculty/${id}`}
+          handleSearch={handleFacultySearch}
         />
         <CampusTable
           columns={facultyColumns}
-          data={facultyList}
+          data={filteredFacultyList}
           tabletype="CampusFacultyList"
         />
       </div>

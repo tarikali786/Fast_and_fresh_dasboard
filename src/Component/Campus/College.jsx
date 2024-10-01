@@ -1,25 +1,51 @@
 import { useEffect, useMemo, useState } from "react";
 import { Header } from "../Common/Header";
 import { CampusTable } from "./CampusTable";
-import axios from "axios";
-import "./style.css";
-import { Loading } from "../Common";
 import { get } from "../../hooks/api";
+import { Loading } from "../Common";
+import "./style.css";
+
 export const College = () => {
   const [collegeList, setCollegeList] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [filteredCollegeList, setFilteredCollegeList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const api = `${import.meta.env.VITE_API_URL}/dashboard/collegeList/`;
 
   const FetchCollegeList = async () => {
     setLoading(true);
-    const response = await get(api);
-    setCollegeList(response.data.data);
-    setLoading(false);
+    try {
+      const response = await get(api);
+      setCollegeList(response.data.data);
+      setFilteredCollegeList(response.data.data); // Set initially unfiltered
+    } catch (error) {
+      console.error("Error fetching college list:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
   useEffect(() => {
     FetchCollegeList();
   }, []);
+
+  // Handle search input
+  const handleSearch = (e) => {
+    const input = e.target.value.trim().toLowerCase();
+    setSearchTerm(input);
+  };
+
+  // Filter the list based on search term
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredCollegeList(collegeList);
+    } else {
+      const filteredData = collegeList.filter((college) =>
+        college.name.toLowerCase().includes(searchTerm)
+      );
+      setFilteredCollegeList(filteredData);
+    }
+  }, [searchTerm, collegeList]);
 
   const Columns = useMemo(() => {
     return [
@@ -33,12 +59,11 @@ export const College = () => {
         selector: (row) => row.name,
         sortable: true,
       },
-      {
-        name: "Monthly Payment",
-        selector: (row) => row.monthly_payment,
-        sortable: true,
-      },
-
+      // {
+      //   name: "Monthly Payment",
+      //   selector: (row) => row.monthly_payment,
+      //   sortable: true,
+      // },
       {
         name: "Delivery Time",
         selector: (row) => row.delivery_time,
@@ -51,64 +76,40 @@ export const College = () => {
       },
       {
         name: "Routes",
-        selector: (row) => (row.routes?.name ? row?.routes?.name : "No routes"),
+        selector: (row) => (row.routes?.name ? row.routes.name : "No routes"),
         sortable: true,
       },
       {
         name: "Status",
         sortable: true,
-
         selector: (row) => row.isActive,
         cell: (row) => {
-          let bgColorClass = "";
-          switch (row.isActive) {
-            case false:
-              bgColorClass = "bg-orange-500";
-              break;
-            case true:
-              bgColorClass = "bg-sky-400";
-              break;
-
-            default:
-              bgColorClass = "bg-gray-950";
-          }
-
+          let bgColorClass = row.isActive ? "bg-sky-400" : "bg-orange-500";
           return (
             <span
               className={`border-1 w-20 flex justify-center py-2.5 text-white rounded-full ${bgColorClass}`}
             >
-              {row.isActive ? "Active" : "InActive"}
+              {row.isActive ? "Active" : "Inactive"}
             </span>
           );
         },
       },
-      {
-        name: "Action",
-        cell: (row) => (
-          <div className="">
-            <button className="btn btn-primary" onClick={() => {}}>
-              Edit
-            </button>
-          </div>
-        ),
-      },
     ];
   }, []);
+
   if (loading) return <Loading />;
 
   return (
-    <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl w-100%">
+    <div className="m-2 md:m-10 mt-6 p-2 md:p-4 bg-white rounded-3xl w-100%">
       <Header
-        category="Page"
         title="College"
         buttonName="Add College"
         Buttonlink="/add-college"
-        itmeList={collegeList}
-        setItemList={setCollegeList}
+        handleSearch={handleSearch}
       />
       <CampusTable
         columns={Columns}
-        data={collegeList}
+        data={filteredCollegeList}
         tabletype="CollegeList"
       />
     </div>

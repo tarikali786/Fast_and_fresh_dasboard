@@ -6,6 +6,7 @@ import "./styleForm.css";
 
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Error } from "../Common";
 
 const fileTypes = ["csv type file"];
 const MultipleForm = () => {
@@ -152,6 +153,7 @@ const SingleForm = () => {
 
   return (
     <>
+      {error && <Error text={"something went wrong"} setError={setError} />}
       <div className="Mainsection">
         <h1>Add Vehicle</h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data">

@@ -55,7 +55,7 @@ const SingleForm = () => {
     tag_name: "",
     max_student_count: "",
     color: "#000000",
-    uniform: true,
+    uniform: false,
     college_uid: id,
   });
 

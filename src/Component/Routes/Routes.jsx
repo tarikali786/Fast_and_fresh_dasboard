@@ -19,7 +19,7 @@ export const RouteList = () => {
         sortable: true,
       },
       {
-        name: "Employee Namme",
+        name: "Employee Name",
         selector: (row) => row.employee.name,
         sortable: true,
       },
@@ -56,6 +56,9 @@ export const RouteList = () => {
   }, []);
   const [routeList, setRouteList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredRouteList, setFilteredRouteList] = useState([]);
+
   const api = `${import.meta.env.VITE_API_URL}/dashboard/routeList/`;
 
   const FetchCollegeDetails = async () => {
@@ -68,19 +71,35 @@ export const RouteList = () => {
     FetchCollegeDetails();
   }, []);
 
+  // Handle search input
+  const handleSearch = (e) => {
+    const input = e.target.value.trim().toLowerCase();
+    setSearchTerm(input);
+  };
+
+  // Filter the list based on search term
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredRouteList(routeList);
+    } else {
+      const filteredData = routeList.filter((route) =>
+        route.name.toLowerCase().includes(searchTerm)
+      );
+      setFilteredRouteList(filteredData);
+    }
+  }, [searchTerm, routeList]);
+
   if (loading) return <Loading />;
 
   return (
     <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
       <Header
-        category="Page"
         title="Route"
         buttonName="Add Route"
         Buttonlink="/add-route"
-        itmeList={routeList}
-        setItemList={setRouteList}
+        handleSearch={handleSearch}
       />
-      <RouteTable columns={Columns} data={routeList} />
+      <RouteTable columns={Columns} data={filteredRouteList} />
     </div>
   );
 };

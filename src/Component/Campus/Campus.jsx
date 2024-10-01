@@ -67,6 +67,8 @@ export const Campus = () => {
   const [campusList, setCampusList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [routesList, setRoutesList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCampusList, setFilterCampusList] = useState([]);
 
   const [formState, setFormState] = useState({
     name: "",
@@ -99,18 +101,10 @@ export const Campus = () => {
     });
     setLoading(false);
   };
-
-  useEffect(() => {
-    fetchCollegeDetails();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchEmployeTypeList("Campus_Employee");
-      setEmployeeList(data);
-    };
-    fetchData();
-  }, []);
+  const fetchData = async () => {
+    const data = await fetchEmployeTypeList("Campus_Employee");
+    setEmployeeList(data);
+  };
 
   const FetchRoutesList = async () => {
     const api = `${import.meta.env.VITE_API_URL}/college/routes/`;
@@ -122,6 +116,8 @@ export const Campus = () => {
   };
 
   useEffect(() => {
+    fetchCollegeDetails();
+    fetchData();
     FetchRoutesList();
   }, []);
 
@@ -161,7 +157,6 @@ export const Campus = () => {
   const goForward = () => {
     navigate(1);
   };
-  // Delete employee
   const handleCollegeDelete = async () => {
     const confirmation = window.confirm(
       "Are you sure you want to delete this College?"
@@ -175,6 +170,24 @@ export const Campus = () => {
       console.log("College deletion canceled");
     }
   };
+
+  console.log(campusList);
+
+  const handleSearch = (e) => {
+    const input = e.target.value.trim().toLowerCase();
+    setSearchTerm(input);
+  };
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilterCampusList(campusList);
+    } else {
+      const filteredData = campusList?.filter((campus) =>
+        campus.name.toLowerCase().includes(searchTerm)
+      );
+      setFilterCampusList(filteredData);
+    }
+  }, [searchTerm, campusList]);
 
   if (loading) return <Loading />;
 
@@ -333,12 +346,11 @@ export const Campus = () => {
           title="Campus"
           buttonName="Add Campus"
           Buttonlink={`/add-campus/${id}`}
-          itmeList={campusList}
-          setItemList={setCampusList}
+          handleSearch={handleSearch}
         />
         <CampusTable
           columns={Columns}
-          data={campusList}
+          data={filterCampusList}
           tabletype="CampusList"
         />
       </div>

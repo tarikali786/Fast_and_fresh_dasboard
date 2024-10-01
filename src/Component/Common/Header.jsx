@@ -1,28 +1,14 @@
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "./header.css";
-import { useState } from "react";
 
 export const Header = ({
-  title,
+  title = "",
   buttonName,
   Buttonlink,
-  itmeList,
-  setItemList,
+  handleSearch,
+  placeholder = "Search by name..!",
 }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const handleSearch = (e) => {
-    setSearchValue(e.target.value.trim().toLowerCase());
-    if (searchValue == "") {
-      setItemList(itmeList);
-    } else {
-      const filteredList = itmeList.filter((item) =>
-        item.name.toLowerCase().includes(searchValue)
-      );
-      setItemList(filteredList);
-    }
-  };
-
   return (
     <div className="md:pt-0 pt-10 flex justify-between flex-wrap items-center">
       <div>
@@ -35,11 +21,10 @@ export const Header = ({
         <input
           type="text"
           name="search"
-          placeholder="Search by name..!"
+          placeholder={placeholder}
           style={{ border: "none", outline: "none", width: "90%" }}
           onChange={handleSearch}
         />
-
         <FaSearch />
       </div>
 

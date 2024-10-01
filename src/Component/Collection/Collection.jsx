@@ -7,6 +7,8 @@ import { get } from "../../hooks/api";
 export const Collection = () => {
   const [collectionList, setCollectionList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCollectionList, setFilteredCollectionList] = useState([]);
 
   const api = `${import.meta.env.VITE_API_URL}/dashboard/collectionList/`;
 
@@ -83,20 +85,39 @@ export const Collection = () => {
       },
     ];
   }, []);
+
+  const handleSearch = (e) => {
+    const input = e.target.value.trim().toLowerCase();
+    setSearchTerm(input);
+  };
+
+  // Filter the list based on search term
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredCollectionList(collectionList);
+    } else {
+      const filteredData = collectionList.filter((collection) =>
+        collection?.campus?.name?.toLowerCase().includes(searchTerm)
+      );
+      setFilteredCollectionList(filteredData);
+    }
+  }, [searchTerm, collectionList]);
+
   if (loading) return <Loading />;
 
   return (
     <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl w-100%">
       <Header
-        category="Page"
         title="Collection"
         buttonName="Add Collection"
         // Buttonlink="/add-collection"
         Buttonlink="#"
+        handleSearch={handleSearch}
+        placeholder="Search by Campus name "
       />
       <CollectionTable
         columns={Columns}
-        data={collectionList}
+        data={filteredCollectionList}
         tabletype="CollegeList"
       />
     </div>
