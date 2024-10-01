@@ -53,7 +53,6 @@ export const VehicleDetails = () => {
   const goBack = () => {
     navigate(-1);
   };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -61,13 +60,27 @@ export const VehicleDetails = () => {
       [name]: value,
     }));
   };
-
   const updateVehicle = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    // Create an object with only the fields that have been updated
+    const updatedFields = Object.keys(formData).reduce((acc, key) => {
+      if (formData[key] !== vehicleDetails[key]) {
+        acc[key] = formData[key]; // Only include fields that have changed
+      }
+      return acc;
+    }, {});
+
+    // Check if there are any changes
+    if (Object.keys(updatedFields).length === 0) {
+      alert("No changes detected");
+      setLoading(false);
+      return;
+    }
+
     try {
-      await patch(api, formData); // Send the updated formData, not vehicleDetails
+      await patch(api, updatedFields); // Send only the updated fields
       alert("Vehicle details updated successfully");
       fetchVehicleDetails(); // Fetch updated vehicle details
     } catch (error) {
@@ -76,6 +89,7 @@ export const VehicleDetails = () => {
       setLoading(false);
     }
   };
+
   // Delete employee
   const handleVehicleDelete = async () => {
     const confirmation = window.confirm(
