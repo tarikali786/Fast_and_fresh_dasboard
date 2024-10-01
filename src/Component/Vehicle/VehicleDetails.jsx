@@ -34,9 +34,9 @@ export const VehicleDetails = () => {
         name: response?.data?.name || "",
         number_plate: response?.data?.number_plate || "",
         make: response?.data?.make || "",
-        odo_meter: response?.data?.odo_meter || "",
+        odo_meter: response?.data?.odo_meter || 0,
         last_driver_uid: response?.data?.last_driver?.uid || "",
-        fuel_level: response?.data?.fuel_level || "",
+        fuel_level: response?.data?.fuel_level || 0,
         isActive: response?.data?.isActive || "",
       });
     } catch (error) {
