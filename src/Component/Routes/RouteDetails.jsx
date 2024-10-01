@@ -29,7 +29,6 @@ export const RouteDetails = () => {
     });
     setLoading(false);
   };
-  console.log(routeDetail);
 
   const fetchEmployeeList = async () => {
     try {

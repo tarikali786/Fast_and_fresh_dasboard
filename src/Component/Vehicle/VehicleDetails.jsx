@@ -65,7 +65,6 @@ export const VehicleDetails = () => {
   const updateVehicle = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(formData);
 
     try {
       await patch(api, formData); // Send the updated formData, not vehicleDetails
