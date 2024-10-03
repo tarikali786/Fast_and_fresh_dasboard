@@ -172,24 +172,6 @@ export const Sidebar = () => {
                 </p>
               </NavLink>
             </>
-            <>
-              <NavLink
-                to="analytics"
-                key="analytics"
-                onClick={handleCloseSideBar}
-                style={({ isActive }) => ({
-                  backgroundColor: isActive ? currentColor : "",
-                })}
-                className={({ isActive }) =>
-                  isActive ? activeLink : normalLink
-                }
-              >
-                <IoAnalyticsSharp />
-                <p>
-                  <span className="capitalize">analytics</span>
-                </p>
-              </NavLink>
-            </>
           </div>
         </>
       )}
