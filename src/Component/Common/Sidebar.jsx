@@ -4,7 +4,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 import { FaSchoolFlag } from "react-icons/fa6";
 import { TbLayoutDashboard } from "react-icons/tb";
 import { IoMdContacts } from "react-icons/io";
-import { IoAnalyticsSharp } from "react-icons/io5";
+import { GiClothesline } from "react-icons/gi";
 import { FaCarAlt } from "react-icons/fa";
 import { MdCollectionsBookmark } from "react-icons/md";
 import { FaRoute } from "react-icons/fa";
@@ -169,6 +169,24 @@ export const Sidebar = () => {
                 <FaRoute />
                 <p>
                   <span className="capitalize">Routes</span>
+                </p>
+              </NavLink>
+            </>
+            <>
+              <NavLink
+                to="dry-area"
+                key="dry-area"
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <GiClothesline />
+                <p>
+                  <span className="capitalize">Dry Area</span>
                 </p>
               </NavLink>
             </>

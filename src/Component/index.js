@@ -6,3 +6,4 @@ export * from "./Analytic";
 export * from "./Dashboard";
 export * from "./Employee";
 export * from "./Vehicle";
+export * from "./DryArea";

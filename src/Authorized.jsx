@@ -10,6 +10,8 @@ import {
   CollectionTable2,
   College,
   Dashboard,
+  DryArea,
+  DryAreaDetails,
   EmployeeDetails,
   Employees,
   FacultyDetails,
@@ -24,6 +26,7 @@ import {
   CampusForm,
   CollectionForm,
   CollegeForm,
+  DryAreaForm,
   EmployeeForm,
   FacultyForm,
   RouteForm,
@@ -136,6 +139,11 @@ const Authorized = () => {
               <Route path="/routes" element={<RouteList />} />
               <Route path="/add-route" element={<RouteForm />} />
               <Route path="/route-details/:id" element={<RouteDetails />} />
+
+              <Route path="/dry-area" element={<DryArea />} />
+              <Route path="/dryArea-details/:id" element={<DryAreaDetails />} />
+              <Route path="/add-dryArea" element={<DryAreaForm />} />
+
               {/* End Employee Component */}
             </Routes>
           </div>
