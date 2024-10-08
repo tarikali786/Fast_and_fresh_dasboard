@@ -34,9 +34,9 @@ export const VehicleDetails = () => {
         name: response?.data?.name || "",
         number_plate: response?.data?.number_plate || "",
         make: response?.data?.make || "",
-        odo_meter: response?.data?.odo_meter || 0,
+        // odo_meter: response?.data?.odo_meter || 0,
         last_driver_uid: response?.data?.last_driver?.uid || "",
-        fuel_level: response?.data?.fuel_level || 0,
+        // fuel_level: response?.data?.fuel_level || 0,
         isActive: response?.data?.isActive || "",
       });
     } catch (error) {
@@ -149,7 +149,7 @@ export const VehicleDetails = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="college-input-card">
+          {/* <div className="college-input-card">
             <label>Odo Meter:</label>
             <input
               type="text"
@@ -158,7 +158,7 @@ export const VehicleDetails = () => {
               value={formData.odo_meter}
               onChange={handleInputChange}
             />
-          </div>
+          </div> */}
         </div>
         <div className="college-input-container">
           <div className="campus-input-card">
@@ -179,7 +179,7 @@ export const VehicleDetails = () => {
               ))}
             </select>
           </div>
-          <div className="college-input-card">
+          {/* <div className="college-input-card">
             <label>Fuel Level:</label>
             <input
               type="text"
@@ -188,10 +188,8 @@ export const VehicleDetails = () => {
               value={formData.fuel_level}
               onChange={handleInputChange}
             />
-          </div>
-        </div>
-        <div className="college-input-container">
-          <div className="campus-input-card">
+          </div> */}
+           <div className="campus-input-card">
             <label>IsAcitve:</label>
             <select
               name="isActive"
@@ -208,6 +206,25 @@ export const VehicleDetails = () => {
               <option value="false">False</option>
             </select>
           </div>
+        </div>
+        <div className="college-input-container">
+          {/* <div className="campus-input-card">
+            <label>IsAcitve:</label>
+            <select
+              name="isActive"
+              value={formData.isActive ? "true" : "false"}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  isActive: e.target.value === "true", // Convert string to boolean
+                }))
+              }
+              className="CollegeEmployee"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          </div> */}
         </div>
 
         <div className="college-input-container">

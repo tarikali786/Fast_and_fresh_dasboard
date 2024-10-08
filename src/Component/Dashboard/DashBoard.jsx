@@ -11,6 +11,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 import { useEffect, useState } from "react";
 import { get } from "../../hooks/api";
 import { Loading } from "../Common/Loading";
+import { Link } from "react-router-dom";
 
 export const Dashboard = () => {
   const { currentColor } = useStateContext();
@@ -228,7 +229,9 @@ export const Dashboard = () => {
 
             <div className="mt-5">
               <div>
-                <p className="font-semibold text-xl mb-5">Collection</p>
+                <Link to="/collection" className="font-semibold text-xl mb-5">
+                  Collection & Delivery{" "}
+                </Link>
               </div>
 
               <SparkLine

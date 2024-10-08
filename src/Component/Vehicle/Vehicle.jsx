@@ -33,11 +33,11 @@ export const Vehicle = () => {
         selector: (row) => row.make,
         sortable: true,
       },
-      {
-        name: "Odo Meter",
-        selector: (row) => row.odo_meter,
-        sortable: true,
-      },
+      // {
+      //   name: "Odo Meter",
+      //   selector: (row) => row.odo_meter,
+      //   sortable: true,
+      // },
       {
         name: "Number Plate",
         selector: (row) => row.number_plate,

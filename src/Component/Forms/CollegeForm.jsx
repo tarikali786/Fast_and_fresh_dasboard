@@ -55,7 +55,7 @@ const SingleForm = () => {
 
   const [collegeFormData, setCollegeFormData] = useState({
     name: "", // Empty string as default
-    monthly_payment: "",
+    // monthly_payment: "",
     delivery_time: "",
     schedule: "",
     campus_employee: [],
@@ -157,7 +157,7 @@ const SingleForm = () => {
               required // Built-in validation
             />
           </div>
-          <div className="campus-input-card">
+          {/* <div className="campus-input-card">
             <label>Monthly Payment:</label>
             <input
               type="number"
@@ -167,7 +167,7 @@ const SingleForm = () => {
               onChange={handleChange}
               required // Built-in validation
             />
-          </div>
+          </div> */}
         </div>
         <div className="campus-input-container">
           <div className="campus-input-card">

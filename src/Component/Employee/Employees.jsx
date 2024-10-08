@@ -70,7 +70,7 @@ export const Employees = () => {
             <span
               className={`border-1 w-20 flex justify-center py-2.5 text-white rounded-full ${bgColorClass}`}
             >
-              {row.is_active ? "Active" : "Inactive"}
+              {row.is_active ? "Active" : "InActive"}
             </span>
           );
         },

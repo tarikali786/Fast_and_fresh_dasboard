@@ -114,7 +114,7 @@ export const Sidebar = () => {
               >
                 <FaSchoolFlag />
                 <p>
-                  <span className="capitalize">Colleges</span>
+                  <span className="capitalize">Campuses</span>
                 </p>
               </NavLink>
             </>

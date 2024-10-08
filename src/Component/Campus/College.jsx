@@ -47,6 +47,8 @@ export const College = () => {
     }
   }, [searchTerm, collegeList]);
 
+  console.log(collegeList);
+
   const Columns = useMemo(() => {
     return [
       {
@@ -59,21 +61,14 @@ export const College = () => {
         selector: (row) => row.name,
         sortable: true,
       },
-      // {
-      //   name: "Monthly Payment",
-      //   selector: (row) => row.monthly_payment,
-      //   sortable: true,
-      // },
+
       {
-        name: "Delivery Time",
-        selector: (row) => row.delivery_time,
+        name: "Campus Supervisor",
+        selector: (row) =>
+          row?.campus_employee.map((emp) => emp.name).join(", "),
         sortable: true,
       },
-      {
-        name: "Schedule",
-        selector: (row) => row.schedule,
-        sortable: true,
-      },
+
       {
         name: "Routes",
         selector: (row) => (row.routes?.name ? row.routes.name : "No routes"),
@@ -89,7 +84,7 @@ export const College = () => {
             <span
               className={`border-1 w-20 flex justify-center py-2.5 text-white rounded-full ${bgColorClass}`}
             >
-              {row.isActive ? "Active" : "Inactive"}
+              {row.isActive ? "Active" : "InActive"}
             </span>
           );
         },

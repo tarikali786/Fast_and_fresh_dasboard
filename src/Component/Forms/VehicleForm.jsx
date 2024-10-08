@@ -183,7 +183,7 @@ const SingleForm = () => {
           </div>
 
           <div className="campus-input-container">
-            <div className="campus-input-card">
+            {/* <div className="campus-input-card">
               <label>Odo Meter:</label>
               <input
                 type="number"
@@ -193,7 +193,8 @@ const SingleForm = () => {
                 onChange={handleInputChange}
                 required // Built-in validation
               />
-            </div>
+            </div> */}
+
             <div className="campus-input-card">
               <label>Number Plate:</label>
               <input
@@ -201,19 +202,6 @@ const SingleForm = () => {
                 placeholder="Number Plate"
                 name="number_plate"
                 value={vehicleFormData.number_plate}
-                onChange={handleInputChange}
-                required // Built-in validation
-              />
-            </div>
-          </div>
-          <div className="campus-input-container">
-            <div className="campus-input-card">
-              <label>Fuel level:</label>
-              <input
-                type="number"
-                placeholder="Fuel Level"
-                name="fuel_level"
-                value={vehicleFormData.fuel_level}
                 onChange={handleInputChange}
                 required // Built-in validation
               />
@@ -239,8 +227,41 @@ const SingleForm = () => {
               </select>
             </div>
           </div>
+          <div className="campus-input-container">
+            {/* <div className="campus-input-card">
+              <label>Fuel level:</label>
+              <input
+                type="number"
+                placeholder="Fuel Level"
+                name="fuel_level"
+                value={vehicleFormData.fuel_level}
+                onChange={handleInputChange}
+                required // Built-in validation
+              />
+            </div> */}
+            {/* <div className="campus-input-card">
+              <label>Driver:</label>
+              <select
+                name="last_driver_uid"
+                value={vehicleFormData.last_driver_uid}
+                onChange={handleInputChange}
+                className="CollegeEmployee"
+                required // Built-in validation
+              >
+                <option value="">Select Vehicle Driver</option>
+                {employeeList?.map(
+                  (e) =>
+                    e.employee_type === "Driver" && (
+                      <option key={e.uid} value={e.uid}>
+                        {e.name}
+                      </option>
+                    )
+                )}
+              </select>
+            </div> */}
+          </div>
 
-          {/* Image uploads */}
+          {/* Image uploads
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Odo Meter Image:</label>
@@ -249,7 +270,7 @@ const SingleForm = () => {
                 accept="image/*"
                 name="odo_meter_image"
                 onChange={handleInputChange}
-                required // Built-in validation
+                // required // Built-in validation
               />
             </div>
             <div className="campus-input-card">
@@ -303,7 +324,7 @@ const SingleForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
+          </div> */}
 
           <div className="campusSubmitButton">
             <Link to="/vehicle" className="subButton1 SubButton">

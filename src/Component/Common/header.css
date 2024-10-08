@@ -8,5 +8,9 @@
   justify-content: space-between;
 }
 .SearchBar:hover {
-  border:2px solid rgb(3, 201, 215);
+  border: 2px solid rgb(3, 201, 215);
+}
+
+label >svg{
+  display: none
 }

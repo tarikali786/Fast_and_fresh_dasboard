@@ -38,7 +38,7 @@ export const DryArea = () => {
             <span
               className={`border-1 w-20 flex justify-center py-2.5 text-white rounded-full ${bgColorClass}`}
             >
-              {row.isActive ? "Active" : "Inactive"}
+              {row.isActive ? "Active" : "InActive"}
             </span>
           );
         },
