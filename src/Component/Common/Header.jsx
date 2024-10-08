@@ -37,17 +37,20 @@ export const Header = ({
           onChange={handleSearch}
         />
         {dateFilter && (
-          <label htmlFor="filterdate" onClick={handleIconClick}>
-            <CiCalendarDate />
-          </label>
+          <>
+            <label htmlFor="filterdate" onClick={handleIconClick}>
+              <CiCalendarDate />
+            </label>
+            <input
+              type="date"
+              id="filterdate"
+              name="date"
+              className={isInputVisible ? "active" : ""}
+              onChange={handleSearch}
+            />
+          </>
         )}
-        <input
-          type="date"
-          id="filterdate"
-          name="date"
-          className={isInputVisible ? "active" : ""}
-          onChange={handleSearch}
-        />
+
         {!dateFilter && <FaSearch />}
       </div>
 
