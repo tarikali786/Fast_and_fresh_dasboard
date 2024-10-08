@@ -51,7 +51,7 @@ export const Header = ({
         {!dateFilter && <FaSearch />}
       </div>
 
-      {button && (
+      {!button && (
         <div className="mr-4">
           <Link
             to={Buttonlink}
