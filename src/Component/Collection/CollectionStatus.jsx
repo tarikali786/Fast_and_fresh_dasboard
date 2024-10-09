@@ -20,28 +20,34 @@ const CollectionStatusSteps = ({ currentStatus = "READY_TO_PICK" }) => {
   const currentIndex = CollectionStatus.indexOf(currentStatus);
 
   return (
-    <Stepper
-      activeStep={currentIndex}
-      orientation="vertical"
-      style={{ marginBlock: "1rem" }}
-    >
-      {CollectionStatus.map((status, index) => (
-        <Step key={status}>
-          <StepLabel
-            optional={
-              index === currentIndex && (
-                <div style={{ color: "rgb(3, 201, 215)",marginTop:"0rem" }}>Current Status</div>
-              )
-            }
-            style={{
-              color: index <= currentIndex ? "green" : "gray",
-            }}
-          >
-            {status}
-          </StepLabel>
-        </Step>
-      ))}
-    </Stepper>
+    <div    style={{ marginBlock: "1rem" }} >
+      <h1>Collection Current Status </h1>
+
+      <Stepper
+        activeStep={currentIndex}
+        orientation="vertical"
+        style={{ marginBlock: "1rem" }}
+      >
+        {CollectionStatus.map((status, index) => (
+          <Step key={status}>
+            <StepLabel
+              optional={
+                index === currentIndex && (
+                  <div style={{ color: "rgb(3, 201, 215)", marginTop: "0rem" }}>
+                    Current Status
+                  </div>
+                )
+              }
+              style={{
+                color: index <= currentIndex ? "green" : "gray",
+              }}
+            >
+              {status}
+            </StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    </div>
   );
 };
 
