@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "../Common/Header";
 import { CampusTable } from "./CampusTable";
-import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import "./style.css";
 import { Loading } from "../Common";

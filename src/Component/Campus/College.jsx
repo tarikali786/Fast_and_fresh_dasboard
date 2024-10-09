@@ -4,6 +4,7 @@ import { CampusTable } from "./CampusTable";
 import { get } from "../../hooks/api";
 import { Loading } from "../Common";
 import "./style.css";
+import DownloadPDF from "../Common/DownloadPDF";
 
 export const College = () => {
   const [collegeList, setCollegeList] = useState([]);
@@ -29,13 +30,11 @@ export const College = () => {
     FetchCollegeList();
   }, []);
 
-  // Handle search input
   const handleSearch = (e) => {
     const input = e.target.value.trim().toLowerCase();
     setSearchTerm(input);
   };
 
-  // Filter the list based on search term
   useEffect(() => {
     if (!searchTerm) {
       setFilteredCollegeList(collegeList);
@@ -47,28 +46,16 @@ export const College = () => {
     }
   }, [searchTerm, collegeList]);
 
-  console.log(collegeList);
-
   const Columns = useMemo(() => {
     return [
-      {
-        name: "Id",
-        selector: (row) => row.id,
-        sortable: true,
-      },
-      {
-        name: "Name",
-        selector: (row) => row.name,
-        sortable: true,
-      },
-
+      { name: "Id", selector: (row) => row.id, sortable: true },
+      { name: "Name", selector: (row) => row.name, sortable: true },
       {
         name: "Campus Supervisor",
         selector: (row) =>
           row?.campus_employee.map((emp) => emp.name).join(", "),
         sortable: true,
       },
-
       {
         name: "Routes",
         selector: (row) => (row.routes?.name ? row.routes.name : "No routes"),
@@ -76,8 +63,8 @@ export const College = () => {
       },
       {
         name: "Status",
-        sortable: true,
         selector: (row) => row.isActive,
+        sortable: true,
         cell: (row) => {
           let bgColorClass = row.isActive ? "bg-sky-400" : "bg-orange-500";
           return (
@@ -96,6 +83,7 @@ export const College = () => {
 
   return (
     <div className="m-2 md:m-10 mt-6 p-2 md:p-4 bg-white rounded-3xl w-100%">
+      {/* <DownloadPDF jsonData={filteredCollegeList} name="CollegeList" /> */}
       <Header
         title="College"
         buttonName="Add College"

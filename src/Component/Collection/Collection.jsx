@@ -67,8 +67,13 @@ export const Collection = () => {
         sortable: true,
       },
       {
+        name: "Expected Delivery Date",
+        selector: (row) => row?.expected_delivery_date,
+        sortable: true,
+      },
+      {
         name: "Delivery Date",
-        selector: (row) => row?.delivery_date,
+        selector: (row) => row?.delivery_date ? row?.delivery_date  : "Not Delivered At",
         sortable: true,
       },
       {

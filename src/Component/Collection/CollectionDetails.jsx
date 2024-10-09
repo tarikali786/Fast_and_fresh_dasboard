@@ -17,6 +17,7 @@ import {
 } from "./TableColumn";
 import { get } from "../../hooks/api";
 import { formatDate } from "../../utils";
+import CollectionStatusSteps from "./CollectionStatus";
 
 export const CollectionDetails = ({
   setTableData,
@@ -45,8 +46,6 @@ export const CollectionDetails = ({
   useEffect(() => {
     FetchCollectionDetails();
   }, []);
-
-
 
   const FetchEmployeeList = async () => {
     setLoading(true);
@@ -85,24 +84,32 @@ export const CollectionDetails = ({
             />
           </div>
           <div className="college-input-card">
-            <label>Delivery Date:</label>
+            <label>Expected Delivery Date:</label>
             <input
               type="date"
               placeholder="delivery_date"
               name="delivery_date"
-              value={collectionDetails?.delivery_date}
+              value={collectionDetails?.expected_delivery_date}
               readOnly
             />
           </div>
         </div>
         <div className="college-input-container">
           <div className="college-input-card">
-            <label>Current Status:</label>
+            {/* <label>Current Status:</label>
             <input
               type="text"
               placeholder="current_status"
               name="current_status"
               value={collectionDetails?.current_status}
+              readOnly
+            /> */}
+            <label>Delivery Date:</label>
+            <input
+              type="date"
+              placeholder="delivery_date"
+              name="delivery_date"
+              value={collectionDetails?.delivery_date}
               readOnly
             />
           </div>
@@ -382,6 +389,11 @@ export const CollectionDetails = ({
           </div>
         </div>
       </form>
+
+      <CollectionStatusSteps
+        currentStatus={collectionDetails?.current_status}
+      />
+
       <div className="campusSubmitButton1">
         <Link
           to="/collection-details"
