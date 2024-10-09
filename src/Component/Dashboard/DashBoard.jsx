@@ -230,7 +230,7 @@ export const Dashboard = () => {
             <div className="mt-5">
               <div>
                 <Link to="/collection" className="font-semibold text-xl mb-5">
-                  Collection & Delivery{" "}
+                  Collection & Delivery Update{" "}
                 </Link>
               </div>
 

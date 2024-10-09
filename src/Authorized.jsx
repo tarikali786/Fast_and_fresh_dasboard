@@ -40,6 +40,7 @@ const Authorized = () => {
 
   const [tableData, setTableData] = useState([]);
   const [tableColumn, setTableColumn] = useState([]);
+  const [campusName, setCampusName] = useState("");
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
@@ -120,7 +121,11 @@ const Authorized = () => {
               <Route
                 path="/collection-details"
                 element={
-                  <CollectionTable2 data={tableData} columns={tableColumn} />
+                  <CollectionTable2
+                    data={tableData}
+                    columns={tableColumn}
+                    campusName={campusName}
+                  />
                 }
               />
               <Route
@@ -129,6 +134,7 @@ const Authorized = () => {
                   <CollectionDetails
                     setTableData={setTableData}
                     setTableColumn={setTableColumn}
+                    setCampusName={setCampusName}
                   />
                 }
               />

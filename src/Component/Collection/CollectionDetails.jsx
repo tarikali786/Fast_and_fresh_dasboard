@@ -16,8 +16,13 @@ import {
   WarehouseRemarkColumn,
 } from "./TableColumn";
 import { get } from "../../hooks/api";
+import { formatDate } from "../../utils";
 
-export const CollectionDetails = ({ setTableData, setTableColumn }) => {
+export const CollectionDetails = ({
+  setTableData,
+  setTableColumn,
+  setCampusName,
+}) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
@@ -34,8 +39,6 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
     setLoading(true);
     const response = await get(api);
     setCollectionDetails(response?.data?.data);
-    console.log(response.data.data);
-
     setLoading(false);
   };
 
@@ -43,22 +46,7 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
     FetchCollectionDetails();
   }, []);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
 
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const year = date.getFullYear();
-
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}:${minutes}${ampm}`;
-
-    return `${day}-${month}-${year} T ${formattedTime}`;
-  };
 
   const FetchEmployeeList = async () => {
     setLoading(true);
@@ -97,12 +85,12 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
             />
           </div>
           <div className="college-input-card">
-            <label>ETA:</label>
+            <label>Delivery Date:</label>
             <input
-              type="text"
-              placeholder="ETA"
-              name="ETA"
-              value={collectionDetails?.ETA}
+              type="date"
+              placeholder="delivery_date"
+              name="delivery_date"
+              value={collectionDetails?.delivery_date}
               readOnly
             />
           </div>
@@ -401,6 +389,7 @@ export const CollectionDetails = ({ setTableData, setTableColumn }) => {
           onClick={() => {
             setTableColumn(StudentColumn),
               setTableData(collectionDetails?.student_day_sheet);
+            setCampusName(collectionDetails?.campus?.name);
           }}
         >
           Student Day Sheet

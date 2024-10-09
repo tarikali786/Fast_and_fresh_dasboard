@@ -94,7 +94,7 @@ export const Sidebar = () => {
               >
                 <MdCollectionsBookmark />
                 <p>
-                  <span className="capitalize">Collection & Delivery</span>
+                  <span className="capitalize">Collection & Delivery Updates</span>
                 </p>
               </NavLink>
             </>

@@ -56,7 +56,7 @@ export const Collection = () => {
         sortable: true,
       },
       {
-        name: "Date",
+        name: "Collection Date",
         selector: (row) => {
           const date = new Date(row?.created_at);
           const day = String(date.getDate()).padStart(2, "0");
@@ -68,13 +68,7 @@ export const Collection = () => {
       },
       {
         name: "Delivery Date",
-        selector: (row) => {
-          const date = new Date(row?.delivery_date);
-          const day = String(date.getDate()).padStart(2, "0");
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const year = date.getFullYear();
-          return `${day}-${month}-${year}`; // Formats as DD-MM-YYYY
-        },
+        selector: (row) => row?.delivery_date,
         sortable: true,
       },
       {
@@ -121,7 +115,9 @@ export const Collection = () => {
     // Filter by campus name
     if (searchTerm.text) {
       filteredData = filteredData.filter((collection) =>
-        collection?.campus?.name?.toLowerCase().includes(searchTerm.text.toLowerCase())
+        collection?.campus?.name
+          ?.toLowerCase()
+          .includes(searchTerm.text.toLowerCase())
       );
     }
 
@@ -148,8 +144,8 @@ export const Collection = () => {
   return (
     <div className="m-2 md:m-10 mt-6 p-2 md:p-4 bg-white rounded-3xl w-100%">
       <Header
-        title="Collection"
-        buttonName="Add Collection"
+        title="Collection & Delivery Updates"
+        // buttonName="Add Collection"
         Buttonlink="#"
         handleSearch={handleSearch}
         button="true"
