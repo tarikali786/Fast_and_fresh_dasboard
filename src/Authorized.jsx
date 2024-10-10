@@ -8,6 +8,7 @@ import {
   Collection,
   CollectionDetails,
   CollectionTable2,
+  CollectionTable3,
   College,
   Dashboard,
   DryArea,
@@ -122,6 +123,16 @@ const Authorized = () => {
                 path="/collection-details"
                 element={
                   <CollectionTable2
+                    data={tableData}
+                    columns={tableColumn}
+                    campusName={campusName}
+                  />
+                }
+              />
+              <Route
+                path="/collection-details-daysheet"
+                element={
+                  <CollectionTable3
                     data={tableData}
                     columns={tableColumn}
                     campusName={campusName}

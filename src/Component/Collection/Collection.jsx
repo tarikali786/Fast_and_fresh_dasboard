@@ -26,6 +26,13 @@ export const Collection = () => {
   useEffect(() => {
     FetchCollegeList();
   }, []);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   const Columns = useMemo(() => {
     return [
@@ -57,23 +64,23 @@ export const Collection = () => {
       },
       {
         name: "Collection Date",
-        selector: (row) => {
-          const date = new Date(row?.created_at);
-          const day = String(date.getDate()).padStart(2, "0");
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const year = date.getFullYear();
-          return `${day}-${month}-${year}`; // Formats as DD-MM-YYYY
-        },
+
+        selector: (row) => row?.created_at && formatDate(row?.created_at),
         sortable: true,
       },
       {
         name: "Expected Delivery Date",
-        selector: (row) => row?.expected_delivery_date,
+        selector: (row) =>
+          row?.expected_delivery_date &&
+          formatDate(row?.expected_delivery_date),
         sortable: true,
       },
       {
         name: "Delivery Date",
-        selector: (row) => row?.delivery_date ? row?.delivery_date  : "Not Delivered At",
+        selector: (row) =>
+          row?.delivery_date
+            ? formatDate(row?.delivery_date)
+            : "Not Delivered Yet",
         sortable: true,
       },
       {

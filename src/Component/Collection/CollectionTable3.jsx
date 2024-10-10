@@ -1,7 +1,7 @@
 import DataTables from "react-data-table-component";
 import { Header } from "../Common";
 import { useEffect, useState } from "react";
-export const CollectionTable2 = ({ columns, data, campusName }) => {
+export const CollectionTable3 = ({ columns, data, campusName }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredstudentDaySheetList, setFilteredstudentDaySheetList] =
     useState([]);
@@ -45,7 +45,12 @@ export const CollectionTable2 = ({ columns, data, campusName }) => {
   return (
     <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
       <h1>{campusName}</h1>
-
+      <Header
+        title="Student Day Sheet"
+        button="true"
+        handleSearch={handleSearch}
+        placeholder="Search By Tag Name"
+      />
       <DataTables
         columns={columns}
         data={filteredstudentDaySheetList}

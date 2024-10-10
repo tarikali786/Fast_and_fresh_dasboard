@@ -1,10 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Loading } from "../Common";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import { CollectionTable2 } from "./CollectionTable2";
 import {
   CampusPickupbagnumberColumn,
   FacultyColumn,
@@ -278,7 +276,12 @@ export const CollectionDetails = ({
                     collectionDetails?.campus_pickup_collection_image
                   }`}
                   alt={`Image + 1}`}
-                  style={{ cursor: "pointer", borderRadius: "10px" }}
+                  style={{
+                    cursor: "pointer",
+                    borderRadius: "10px",
+                    width: "80%",
+                    height: "30vh",
+                  }}
                 />
               </a>
             ) : (
@@ -301,7 +304,12 @@ export const CollectionDetails = ({
                     collectionDetails?.campus_drop_collection_image
                   }`}
                   alt={`Image + 1}`}
-                  style={{ cursor: "pointer", borderRadius: "10px" }}
+                  style={{
+                    cursor: "pointer",
+                    borderRadius: "10px",
+                    width: "80%",
+                    height: "30vh",
+                  }}
                 />
               </a>
             ) : (
@@ -326,7 +334,12 @@ export const CollectionDetails = ({
                     collectionDetails?.warehouse_pickup_image
                   }`}
                   alt={`Image + 1}`}
-                  style={{ cursor: "pointer", borderRadius: "10px" }}
+                  style={{
+                    cursor: "pointer",
+                    borderRadius: "10px",
+                    width: "80%",
+                    height: "30vh",
+                  }}
                 />
               </a>
             ) : (
@@ -348,7 +361,12 @@ export const CollectionDetails = ({
                     collectionDetails?.warehouse_drop_image
                   }`}
                   alt={`Image + 1}`}
-                  style={{ cursor: "pointer", borderRadius: "10px" }}
+                  style={{
+                    cursor: "pointer",
+                    borderRadius: "10px",
+                    width: "80%",
+                    height: "30vh",
+                  }}
                 />
               </a>
             ) : (
@@ -392,11 +410,12 @@ export const CollectionDetails = ({
 
       <CollectionStatusSteps
         currentStatus={collectionDetails?.current_status}
+        previousStatus={collectionDetails?.previous_status}
       />
 
       <div className="campusSubmitButton1">
         <Link
-          to="/collection-details"
+          to="/collection-details-daysheet"
           className="subButton3"
           onClick={() => {
             setTableColumn(StudentColumn),
