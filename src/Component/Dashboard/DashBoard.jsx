@@ -29,7 +29,6 @@ export const Dashboard = () => {
   useEffect(() => {
     fetchAnalyticDetails();
   }, []);
-  console.log(analyticData);
 
   if (loading) return <Loading />;
   return (

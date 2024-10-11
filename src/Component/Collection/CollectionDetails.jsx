@@ -422,7 +422,7 @@ export const CollectionDetails = ({
           onClick={() => {
             setTableColumn(StudentColumn),
             setTableData(collectionDetails?.student_day_sheet);
-            setCampusName(collectionDetails?.campus_name);
+            setCampusName(collectionDetails?.campus?.name);
             setCollectionId(collectionDetails?.id);
             setDelivered(collectionDetails?.delivery_date);
           }}

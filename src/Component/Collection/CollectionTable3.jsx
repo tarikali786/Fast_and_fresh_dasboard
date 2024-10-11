@@ -23,6 +23,9 @@ export const CollectionTable3 = ({
     setSearchTerm(input);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
