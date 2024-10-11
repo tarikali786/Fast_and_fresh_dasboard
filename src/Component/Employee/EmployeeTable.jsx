@@ -1,7 +1,7 @@
 import DataTables from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
-import "./style.css";
 
+import "./style.css";
 export const EmployeeTable = ({ columns, data }) => {
   const navigate = useNavigate();
 

@@ -4,7 +4,6 @@ import { CampusTable } from "./CampusTable";
 import { get } from "../../hooks/api";
 import { Loading } from "../Common";
 import "./style.css";
-import DownloadPDF from "../Common/DownloadPDF";
 
 export const College = () => {
   const [collegeList, setCollegeList] = useState([]);

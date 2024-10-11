@@ -42,6 +42,9 @@ const Authorized = () => {
   const [tableData, setTableData] = useState([]);
   const [tableColumn, setTableColumn] = useState([]);
   const [campusName, setCampusName] = useState("");
+  const [collectionId, setCollectionId] = useState("");
+  const [delivered, setDelivered] = useState("");
+
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
@@ -136,6 +139,8 @@ const Authorized = () => {
                     data={tableData}
                     columns={tableColumn}
                     campusName={campusName}
+                    collectionId={collectionId}
+                    delivered={delivered}
                   />
                 }
               />
@@ -146,6 +151,8 @@ const Authorized = () => {
                     setTableData={setTableData}
                     setTableColumn={setTableColumn}
                     setCampusName={setCampusName}
+                    setCollectionId={setCollectionId}
+                    setDelivered={setDelivered}
                   />
                 }
               />

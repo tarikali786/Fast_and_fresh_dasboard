@@ -1,0 +1,59 @@
+#pdf-content {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 2rem;
+  margin-top: 4rem;
+  visibility:hidden;
+}
+.collectionTable{
+  margin-left: 1rem;
+}
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-top: 4rem;
+  margin-bottom: -1rem;
+}
+.logo >img{
+  object-fit: fill !important;
+}
+.campusName {
+  font-size: 22px;
+}
+
+.studentDay {
+  font-size: 20px;
+}
+
+.tableHead {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 4rem;
+}
+
+.tableBody {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.tableBody,
+.tableHead {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.2fr 0.6fr 1.2fr 0.8fr 1.3fr repeat(2, 1fr);
+  min-width: 1000px;
+  border-bottom: 1px solid gray;
+  padding-block: 1rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.downlaodBdfButton {
+  background-color: rgb(76, 166, 240);
+  color: #fff;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+}

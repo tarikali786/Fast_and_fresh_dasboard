@@ -21,6 +21,8 @@ export const CollectionDetails = ({
   setTableData,
   setTableColumn,
   setCampusName,
+  setCollectionId,
+  setDelivered,
 }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -82,10 +84,10 @@ export const CollectionDetails = ({
             />
           </div>
           <div className="college-input-card">
-            <label>Expected Delivery Date:</label>
+            <label> Delivery Date:</label>
             <input
               type="date"
-              placeholder="delivery_date"
+              placeholder="Expected Delivery Date"
               name="delivery_date"
               value={collectionDetails?.expected_delivery_date}
               readOnly
@@ -419,8 +421,10 @@ export const CollectionDetails = ({
           className="subButton3"
           onClick={() => {
             setTableColumn(StudentColumn),
-              setTableData(collectionDetails?.student_day_sheet);
-            setCampusName(collectionDetails?.campus?.name);
+            setTableData(collectionDetails?.student_day_sheet);
+            setCampusName(collectionDetails?.campus_name);
+            setCollectionId(collectionDetails?.id);
+            setDelivered(collectionDetails?.delivery_date);
           }}
         >
           Student Day Sheet

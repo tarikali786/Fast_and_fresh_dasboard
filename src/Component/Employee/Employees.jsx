@@ -1,8 +1,12 @@
 import { EmployeeTable } from "./EmployeeTable";
 import { Header } from "../Common/Header";
 import { useEffect, useMemo, useState } from "react";
-import { Loading } from "../Common";
+import { Button, Loading } from "../Common";
+import { useRef } from "react";
 import { get } from "../../hooks/api";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas"; // html2canvas for capturing elements
+
 export const Employees = () => {
   const Columns = useMemo(() => {
     return [
@@ -11,25 +15,7 @@ export const Employees = () => {
         selector: (row) => row.id,
         sortable: true,
       },
-      // {
-      //   name: "Profile Image",
-      //   selector: (row) =>
-      //     row.profile_image ? (
-      //       <img
-      //         width={70}
-      //         height={60}
-      //         className="rounded-lg my-2"
-      //         src={`${import.meta.env.VITE_API_URL}${row.profile_image}`}
-      //       />
-      //     ) : (
-      //       <img
-      //         width={70}
-      //         height={60}
-      //         className="rounded-lg my-2"
-      //         src="http://13.201.135.134:1337/uploads/thumbnail_download_714e8032dc.jpg"
-      //       />
-      //     ),
-      // },
+
       {
         name: "Name",
         selector: (row) => row.name,
@@ -79,6 +65,11 @@ export const Employees = () => {
     ];
   }, []);
 
+  // Reference to the container element
+  const ref = useRef();
+
+  // Function to download the PDF
+
   const [employeeList, setEmployeeList] = useState([]);
   const api = `${import.meta.env.VITE_API_URL}/college/all-employee/`;
   const [loading, setLoading] = useState(false);
@@ -91,6 +82,7 @@ export const Employees = () => {
     setEmployeeList(response.data.data);
     setLoading(false);
   };
+
   useEffect(() => {
     FetchCollegeList();
   }, []);
@@ -114,14 +106,17 @@ export const Employees = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="m-2 md:m-10 mt-6 p-2 md:p-4   bg-white rounded-3xl">
+    <div className="m-2 md:m-10 mt-6 p-2 md:p-4 bg-white rounded-3xl">
+      {/* <Button text="Download Pdf" onClick={downloadPdf} /> */}
       <Header
-        title="Empolyee"
+        title="Employee"
         buttonName="Add Employee"
         Buttonlink="/add-employee"
         handleSearch={handleSearch}
       />
-      <EmployeeTable columns={Columns} data={filteredEmplList} />
+      <div id="container" ref={ref}>
+        <EmployeeTable columns={Columns} data={filteredEmplList} />
+      </div>
     </div>
   );
 };
