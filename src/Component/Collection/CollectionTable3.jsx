@@ -23,6 +23,14 @@ export const CollectionTable3 = ({
     setSearchTerm(input);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   useEffect(() => {
     if (!searchTerm) {
       setFilteredstudentDaySheetList(data);
@@ -143,7 +151,7 @@ export const CollectionTable3 = ({
             <p>{row.campus_uniforms}</p>
             <p>{row.ware_house_regular_cloths}</p>
             <p>{row.ware_house_uniform}</p>
-            <p>{delivered ? delivered : "Not Delivered Yet"}</p>
+            <p>{delivered ? formatDate(delivered) : "Not Delivered Yet"}</p>
           </div>
         ))}
       </div>
