@@ -6,9 +6,9 @@
   width: 100%;
   padding-bottom: 2rem;
   margin-top: 4rem;
-  visibility:hidden;
+  visibility: hidden;
 }
-.collectionTable{
+.collectionTable {
   margin-left: 1rem;
 }
 .logo {
@@ -17,7 +17,7 @@
   margin-top: 4rem;
   margin-bottom: -1rem;
 }
-.logo >img{
+.logo > img {
   object-fit: fill !important;
 }
 .campusName {
