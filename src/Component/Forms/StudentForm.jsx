@@ -55,12 +55,12 @@ const SingleForm = () => {
   const [error, setError] = useState(false);
   const [studentFormData, setStudentFormData] = useState({
     name: "",
-    email: "",
-    mobile: "",
+    // email: "",
+    // mobile: "",
     tag_number: "",
     branch: "",
-    year: "",
-    dob: "",
+    // year: "",
+    // dob: "",
     campus: id,
   });
 
@@ -107,12 +107,12 @@ const SingleForm = () => {
       if (res.status === 201) {
         setStudentFormData({
           name: "",
-          email: "",
-          mobile: "",
+          // email: "",
+          // mobile: "",
           tag_number: "",
           branch: "",
-          year: "",
-          dob: "",
+          // year: "",
+          // dob: "",
           campus: id,
         });
         window.location.href = `/campus-student-list/${id}`;
@@ -159,7 +159,7 @@ const SingleForm = () => {
               />
             </div>
           </div>
-
+          {/* 
           <div className="campus-input-container">
             <div className="campus-input-card">
               <label>Mobile:</label>
@@ -205,7 +205,7 @@ const SingleForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
+          </div> */}
 
           <div className="campus-input-container">
             <div className="campus-input-card">
