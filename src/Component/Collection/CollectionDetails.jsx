@@ -84,7 +84,7 @@ export const CollectionDetails = ({
             />
           </div>
           <div className="college-input-card">
-            <label> Delivery Date:</label>
+            <label>Expected Delivery Date:</label>
             <input
               type="date"
               placeholder="Expected Delivery Date"

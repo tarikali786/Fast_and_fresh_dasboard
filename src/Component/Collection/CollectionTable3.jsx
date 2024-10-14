@@ -152,7 +152,7 @@ export const CollectionTable3 = ({
         </div>
         {data?.map((row, id) => (
           <div className="tableBody" key={id}>
-            <p>{id}</p>
+            <p>{id + 1}</p>
             <p>{row.tag_number}</p>
             <p>{row.campus_regular_cloths}</p>
             <p>{row.campus_uniforms}</p>
