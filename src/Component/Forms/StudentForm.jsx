@@ -240,7 +240,7 @@ const SingleForm = () => {
 export default SingleForm;
 
 export const StudentForm = () => {
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState("single");
 
   return (
     <>
