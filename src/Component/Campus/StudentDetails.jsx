@@ -23,12 +23,12 @@ export const StudentDetails = () => {
       setStudentDetails(response?.data);
       setEditedFields({
         name: response?.data?.name || "",
-        email: response?.data?.email || "",
-        mobile: response?.data?.mobile || "",
-        dob: response?.data?.dob || "",
+        // email: response?.data?.email || "",
+        // mobile: response?.data?.mobile || "",
+        // dob: response?.data?.dob || "",
         branch: response?.data?.branch || "",
         tag_number: response?.data?.tag_number || "",
-        year: response?.data?.year || "",
+        // year: response?.data?.year || "",
         isActive: response?.data?.isActive || "",
       });
       setLoading(false);
@@ -105,7 +105,7 @@ export const StudentDetails = () => {
               required
             />
           </div>
-          <div className="college-input-card">
+          {/* <div className="college-input-card">
             <label>Email:</label>
             <input
               type="email"
@@ -115,9 +115,9 @@ export const StudentDetails = () => {
               onChange={handleInputChange}
               required
             />
-          </div>
+          </div> */}
         </div>
-        <div className="college-input-container">
+        {/* <div className="college-input-container">
           <div className="college-input-card">
             <label>Mobile:</label>
             <input
@@ -139,7 +139,7 @@ export const StudentDetails = () => {
               required
             />
           </div>
-        </div>
+        </div> */}
         <div className="college-input-container">
           <div className="college-input-card">
             <label>Branch:</label>
@@ -164,7 +164,7 @@ export const StudentDetails = () => {
             />
           </div>
         </div>
-        <div className="college-input-container">
+        {/* <div className="college-input-container">
           <div className="college-input-card">
             <label>Year:</label>
             <input
@@ -176,7 +176,7 @@ export const StudentDetails = () => {
               required
             />
           </div>
-        </div>
+        </div> */}
         <div className="college-input-container">
           <div className="campus-input-card">
             <label>IsActive:</label>
