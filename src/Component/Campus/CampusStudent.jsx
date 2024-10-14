@@ -106,16 +106,16 @@ export const CampusStudent = () => {
         selector: (row) => row.branch,
         sortable: true,
       },
-      {
-        name: "DOB",
-        selector: (row) => row.dob,
-        sortable: true,
-      },
-      {
-        name: "Mobile",
-        selector: (row) => row.mobile,
-        sortable: true,
-      },
+      // {
+      //   name: "DOB",
+      //   selector: (row) => row.dob,
+      //   sortable: true,
+      // },
+      // {
+      //   name: "Mobile",
+      //   selector: (row) => row.mobile,
+      //   sortable: true,
+      // },
       {
         name: "Status",
         selector: (row) => row.isActive,
