@@ -132,7 +132,7 @@ const SingleForm = () => {
 };
 
 export const FacultyForm = () => {
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState("single");
 
   return (
     <>

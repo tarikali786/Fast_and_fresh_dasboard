@@ -235,7 +235,6 @@ const SingleForm = () => {
             </div>
           </div>
 
-         
           <div className="campusSubmitButton">
             <Link to="/employees" className="subButton1 SubButton">
               Cancel
@@ -251,7 +250,7 @@ const SingleForm = () => {
 };
 
 export const EmployeeForm = () => {
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState("single");
 
   return (
     <>

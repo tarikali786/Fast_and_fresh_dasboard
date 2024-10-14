@@ -155,7 +155,7 @@ const SingleForm = () => {
 };
 
 export const DryAreaForm = () => {
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState("single");
 
   return (
     <>

@@ -345,7 +345,7 @@ const SingleForm = () => {
 };
 
 export const VehicleForm = () => {
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState("single");
 
   return (
     <>

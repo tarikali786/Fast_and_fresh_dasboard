@@ -179,7 +179,7 @@ const SingleForm = () => {
 };
 
 export const CollectionForm = () => {
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState("single");
 
   return (
     <>

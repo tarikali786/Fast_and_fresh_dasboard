@@ -194,7 +194,7 @@ const SingleForm = () => {
 export default SingleForm;
 
 export const CampusForm = () => {
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState("single");
 
   return (
     <>

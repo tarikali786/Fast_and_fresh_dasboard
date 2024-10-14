@@ -167,7 +167,7 @@ const SingleForm = () => {
 };
 
 export const RouteForm = () => {
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState("single");
 
   return (
     <>
